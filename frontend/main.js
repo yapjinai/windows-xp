@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   const noteLinks = document.querySelector('#note-links')
-  console.log(noteLinks);
 
   // get all notes
   fetch('http://localhost:3000/notes')
@@ -14,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
 ////////////////// helpers
   function displayNote(note) {
     const noteLi = document.createElement('li')
@@ -22,5 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ${note.name}
     `
     noteLinks.appendChild(noteLi)
-  }
-})
+  } //END OF FUNCTION
+
+  document.findElementByClassName
+
+}) //END END
