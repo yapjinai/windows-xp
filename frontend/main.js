@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   const noteLinks = document.querySelector('.note-links')
-  const noteDisplay = document.querySelector('.note-display')
+  const titleField = document.querySelector('#title')
+  const contentField = document.querySelector('#content')
 
   let noteToDisplay
 
@@ -33,21 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`http://localhost:3000/notes/${noteToDisplay}`)
     .then(r => r.json())
     .then(dataObj => {
-      noteDisplay.innerHTML = `
-        Name: ${dataObj.name}<br>
-        Content: ${dataObj.content}
-      `
+      titleField.value = dataObj.name
+      contentField.innerText = dataObj.content
     })
   } //END OF FUNCTION
 
   function displayNotepad() {
-    console.log("hi");
-    noteDisplay.innerHTML = `
-      <form>
-        <input id="title" placeholder="title..."></input>
-        <textarea id="content" placeholder="content..."></textarea>
-        <button>Save</button>
-      </form>
+    console.log('hi');
+    contentField.innerHTML = `
     `
   } //END OF FUNCTION
 
