@@ -40,13 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
   } //END OF FUNCTION
 
   function displayNotepad() {
-    console.log('hi');
-    contentField.innerHTML = `
-    `
+    titleField.value = ''
+    contentField.innerHTML = ''
   } //END OF FUNCTION
 
   document.addEventListener('dblclick', (event) => {
-    console.log(event.target);
     if(event.target.className === 'note-icon' || event.target.parentElement.className === 'note-icon') {
       noteToDisplay = event.target.dataset.id || event.target.parentElement.dataset.id
       displayNote()

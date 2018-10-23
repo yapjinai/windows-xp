@@ -35,6 +35,9 @@ body {
 
 .note-links {
   position: absolute;
+  height: 85vh;
+  display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   list-style: none; }
   .note-links .notepad-icon,
@@ -74,13 +77,19 @@ body {
     width: 567px;
     height: 334px;
     padding: 5px;
-    background-color: white; }
+    background-color: white;
+    font-family: 'tahoma', sans-serif; }
+    .note-window .note-display input {
+      width: 100%;
+      font-size: 18px;
+      font-family: 'tahoma', sans-serif; }
     .note-window .note-display textarea {
       width: 100%;
       height: 100%;
       resize: none;
       border: none;
       outline: none;
+      font-size: 18px;
       font-family: 'tahoma', sans-serif; }
 
 /*# sourceMappingURL=main.css.map */
