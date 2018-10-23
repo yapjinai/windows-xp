@@ -3,8 +3,9 @@
   padding: 0; }
 
 body {
-  background: url("../images/bliss.jpg");
-  background-size: cover no-repeat;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/bliss.jpg");
   font-family: 'tahoma', sans-serif; }
 
 .start-bar {
@@ -50,5 +51,30 @@ body {
     .note-links .note-icon span {
       margin: auto;
       z-index: 1; }
+
+.note-window {
+  position: absolute;
+  width: 604px;
+  height: 400px;
+  left: 25vw;
+  top: 25vh;
+  background-image: url("../images/notepad.png");
+  background-size: contain;
+  background-repeat: no-repeat; }
+  .note-window .note-display {
+    position: absolute;
+    left: 4px;
+    top: 51px;
+    width: 567px;
+    height: 334px;
+    background-color: white; }
+    .note-window .note-display textarea {
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      resize: none;
+      border: none;
+      outline: none;
+      font-family: 'tahoma', sans-serif; }
 
 /*# sourceMappingURL=main.css.map */

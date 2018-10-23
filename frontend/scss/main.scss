@@ -4,8 +4,14 @@
 }
 
 body {
-  background: url('../images/bliss.jpg');
-  background-size: cover no-repeat;
+  width: 100%;
+  height: 100%;
+  background: {
+    image: url('../images/bliss.jpg');
+    // size: contain;
+    // repeat: no-repeat;
+  }
+
   font-family: 'tahoma', sans-serif;
 }
 
@@ -79,6 +85,47 @@ body {
     span {
       margin: auto;
       z-index: 1;
+    }
+  }
+}
+
+///////////////////////////////////// note display window
+
+.note-window {
+  position: absolute;
+
+  width: 604px;
+  height: 400px;
+
+  left: 25vw;
+  top: 25vh;
+
+  background: {
+    image: url('../images/notepad.png');
+    size: contain;
+    repeat: no-repeat;
+  }
+
+  .note-display {
+    position: absolute;
+    left: 4px;
+    top: 51px;
+
+    width: 567px;
+    height: 334px;
+
+    background-color: white;
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+
+      resize: none;
+      border: none;
+      outline: none;
+
+      font-family: 'tahoma', sans-serif;
     }
   }
 }
