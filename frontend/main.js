@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  const noteLinks = document.querySelector('#note-links')
+  const noteLinks = document.querySelector('.note-links')
 
   // get all notes
   fetch('http://localhost:3000/notes')
@@ -17,9 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
 ////////////////// helpers
   function displayNote(note) {
     const noteLi = document.createElement('li')
-    noteLi.setAttribute('class', 'note-name')
+    noteLi.setAttribute('class', 'note-icon')
     noteLi.innerHTML = `
-      ${note.name}
+      <img src='images/notepad-icon.png'><br>
+      <span>${note.name}</span>
     `
     noteLinks.appendChild(noteLi)
   } //END OF FUNCTION

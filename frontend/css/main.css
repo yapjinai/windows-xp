@@ -1,8 +1,55 @@
+* {
+  margin: 0;
+  padding: 0; }
+
 body {
-  background: url('../images/bg.jpg');
+  background: url("../images/bliss.jpg");
   background-size: cover no-repeat;
-}
+  font-family: 'tahoma', sans-serif; }
 
-#start-menu {
+.start-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 3.5vh;
+  background-image: url("../images/start-bar.png");
+  background-size: contain;
+  background-repeat: repeat-x; }
+  .start-bar .start-button {
+    position: absolute;
+    left: 0;
+    width: 11.4vh;
+    height: 3.5vh;
+    background-image: url("../images/start-button.png");
+    background-size: contain;
+    background-repeat: no-repeat; }
+  .start-bar .start-bar-right {
+    position: absolute;
+    right: 0;
+    width: 15vh;
+    height: 3.5vh;
+    background-image: url("../images/start-bar-right.png");
+    background-size: contain;
+    background-repeat: no-repeat; }
 
-}
+.note-links {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  list-style: none; }
+  .note-links .note-icon {
+    position: relative;
+    margin: 10px;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    z-index: 0; }
+    .note-links .note-icon img {
+      width: 54px;
+      height: 62px;
+      z-index: -1; }
+    .note-links .note-icon span {
+      margin: auto;
+      z-index: 1; }
+
+/*# sourceMappingURL=main.css.map */
