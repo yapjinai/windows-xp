@@ -34,14 +34,13 @@ body {
 
 .note-links {
   position: absolute;
-  display: flex;
   flex-direction: column;
   list-style: none; }
   .note-links .note-icon {
     position: relative;
     margin: 10px;
     width: 100px;
-    height: 100px;
+    min-height: 100px;
     text-align: center;
     z-index: 0; }
     .note-links .note-icon img {
