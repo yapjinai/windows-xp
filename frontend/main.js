@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
   } //END OF FUNCTION
 
   function displayNotepad() {
-    console.log("hi");
     noteDisplay.innerHTML = `
       <form>
         <input id="title" placeholder="title..."></input>
@@ -61,5 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
         displayNotepad()
     }
   }) //END OF DBLCLICK ADDEVENTLISTENER
+
+  const newNoteForm = document.getElementById('new-note-form')
+
+  newNoteForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+
+    const title = document.getElementById('title')
+    const content = document.getElementById('content')
+  }) //END OF SUBMIT ADDEVENTLISTENER
 
 }) //END END
