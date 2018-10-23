@@ -37,17 +37,21 @@ body {
   position: absolute;
   flex-direction: column;
   list-style: none; }
+  .note-links .notepad-icon,
   .note-links .note-icon {
     position: relative;
     margin: 10px;
     width: 100px;
     min-height: 100px;
     text-align: center;
-    z-index: 0; }
+    z-index: 0;
+    border: 2px solid blue; }
+    .note-links .notepad-icon img,
     .note-links .note-icon img {
       width: 54px;
       height: 62px;
       z-index: -1; }
+    .note-links .notepad-icon span,
     .note-links .note-icon span {
       margin: auto;
       z-index: 1; }
@@ -67,11 +71,11 @@ body {
     top: 51px;
     width: 567px;
     height: 334px;
+    padding: 5px;
     background-color: white; }
     .note-window .note-display textarea {
       width: 100%;
       height: 100%;
-      padding: 5px;
       resize: none;
       border: none;
       outline: none;

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  const noteLinks = document.querySelector('#note-links')
+  const noteLinks = document.querySelector('.note-links')
   const noteDisplay = document.querySelector('.note-display')
 
   let noteToDisplay
@@ -31,24 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
     noteDisplay.innerHTML = noteToDisplay
   } //END OF FUNCTION
 
-  document.addEventListener('click', (event) => {
-    if(event.target.className === 'note-name') {
-      noteToDisplay = event.target.dataset.id
+  document.addEventListener('dblclick', (event) => {
+    console.log(event.target);
+    if(event.target.className === 'note-icon' ||
+      event.target.parentElement.className === 'note-icon') {
+      noteToDisplay = event.target.dataset.id || event.target.parentElement.dataset.id
       displayNote()
+
+      fetch(`http://localhost:3000/notes/${noteToDisplay}`)
+      .then(r => r.json())
+      .then(dataObj => {
+        console.log(dataObj)
+
+        const noteDisplay = document.querySelector('.note-display')
+
+        noteDisplay.innerHTML = `
+          Name: ${dataObj.name}<br>
+          Content: ${dataObj.content}
+        `
+      })
     }
-
-    fetch(`http://localhost:3000/notes/${noteToDisplay}`)
-    .then(r => r.json())
-    .then(dataObj => {
-      console.log(dataObj)
-
-      const noteDisplay = document.querySelector('.note-display')
-
-      noteDisplay.innerHTML = `
-        Name: ${dataObj.name}<br>
-        Content: ${dataObj.content}
-      `
-    })
   }) //END OF DBCLICK ADDEVENTLISTENER
 
 }) //END END
