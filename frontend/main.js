@@ -6,13 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
   let noteToDisplay
 
   // get all notes
-  fetch('http://localhost:3000/notes')
+  function getAllNoteIcons() {
+    fetch('http://localhost:3000/notes')
     .then(r => r.json())
     .then(notes => {
       notes.forEach((note) => {
         displayNoteIcon(note)
       })
     })
+  }
+  getAllNoteIcons()
 
 ////////////////// helpers
   function displayNoteIcon(note) {
@@ -26,42 +29,37 @@ document.addEventListener('DOMContentLoaded', () => {
     noteLinks.appendChild(noteLi)
   } //END OF FUNCTION
 
-// debugger
   function displayNote() {
-    noteDisplay.innerHTML = noteToDisplay
+    fetch(`http://localhost:3000/notes/${noteToDisplay}`)
+    .then(r => r.json())
+    .then(dataObj => {
+      noteDisplay.innerHTML = `
+        Name: ${dataObj.name}<br>
+        Content: ${dataObj.content}
+      `
+    })
   } //END OF FUNCTION
 
   function displayNotepad() {
+    console.log("hi");
     noteDisplay.innerHTML = `
-      <textarea></textarea>
-      <button>Save</button>
+      <form>
+        <input id="title" placeholder="title..."></input>
+        <textarea id="content" placeholder="content..."></textarea>
+        <button>Save</button>
+      </form>
     `
   } //END OF FUNCTION
 
   document.addEventListener('dblclick', (event) => {
     console.log(event.target);
-    if(event.target.className === 'note-icon' ||
-      event.target.parentElement.className === 'note-icon') {
+    if(event.target.className === 'note-icon' || event.target.parentElement.className === 'note-icon') {
       noteToDisplay = event.target.dataset.id || event.target.parentElement.dataset.id
-      // displayNote()
-
-      fetch(`http://localhost:3000/notes/${noteToDisplay}`)
-      .then(r => r.json())
-      .then(dataObj => {
-        console.log(dataObj)
-
-        const noteDisplay = document.querySelector('.note-display')
-
-        noteDisplay.innerHTML = `
-          Name: ${dataObj.name}<br>
-          Content: ${dataObj.content}
-        `
-      })
+      displayNote()
     }
-    else if(event.target.className === 'notepad-icon' ||
-      event.target.parentElement.className === 'notepad-icon') {
+    else if(event.target.className === 'notepad-icon' || event.target.parentElement.className === 'notepad-icon') {
         displayNotepad()
     }
-  }) //END OF DBCLICK ADDEVENTLISTENER
+  }) //END OF DBLCLICK ADDEVENTLISTENER
 
 }) //END END

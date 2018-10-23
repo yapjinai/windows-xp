@@ -87,6 +87,9 @@ body {
       margin: auto;
       z-index: 1;
     }
+    &:active span {
+      background: #4267a8;
+    }
   }
 }
 

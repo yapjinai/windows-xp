@@ -54,6 +54,9 @@ body {
     .note-links .note-icon span {
       margin: auto;
       z-index: 1; }
+    .note-links .notepad-icon:active span,
+    .note-links .note-icon:active span {
+      background: #4267a8; }
 
 .note-window {
   position: absolute;
