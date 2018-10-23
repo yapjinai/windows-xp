@@ -17,10 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
 ////////////////// helpers
   function displayNoteIcon(note) {
     const noteLi = document.createElement('li')
-    noteLi.setAttribute('class', 'note-name')
+    noteLi.setAttribute('class', 'note-icon')
     noteLi.dataset.id = note.id
     noteLi.innerHTML = `
-      ${note.name}
+      <img src='images/notepad-icon.png'><br>
+      <span>${note.name}</span>
     `
     noteLinks.appendChild(noteLi)
   } //END OF FUNCTION
