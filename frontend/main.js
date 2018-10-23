@@ -54,4 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }) //END OF DBLCLICK ADDEVENTLISTENER
 
+  const newNoteForm = document.getElementById('new-note-form')
+
+  newNoteForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+
+    const title = document.getElementById('title')
+    const content = document.getElementById('content')
+  }) //END OF SUBMIT ADDEVENTLISTENER
+
 }) //END END
