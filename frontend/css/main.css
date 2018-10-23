@@ -44,8 +44,7 @@ body {
     width: 100px;
     min-height: 100px;
     text-align: center;
-    z-index: 0;
-    border: 2px solid blue; }
+    z-index: 0; }
     .note-links .notepad-icon img,
     .note-links .note-icon img {
       width: 54px;

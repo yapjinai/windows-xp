@@ -31,12 +31,19 @@ document.addEventListener('DOMContentLoaded', () => {
     noteDisplay.innerHTML = noteToDisplay
   } //END OF FUNCTION
 
+  function displayNotepad() {
+    noteDisplay.innerHTML = `
+      <textarea></textarea>
+      <button>Save</button>
+    `
+  } //END OF FUNCTION
+
   document.addEventListener('dblclick', (event) => {
     console.log(event.target);
     if(event.target.className === 'note-icon' ||
       event.target.parentElement.className === 'note-icon') {
       noteToDisplay = event.target.dataset.id || event.target.parentElement.dataset.id
-      displayNote()
+      // displayNote()
 
       fetch(`http://localhost:3000/notes/${noteToDisplay}`)
       .then(r => r.json())
@@ -50,6 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
           Content: ${dataObj.content}
         `
       })
+    }
+    else if(event.target.className === 'notepad-icon' ||
+      event.target.parentElement.className === 'notepad-icon') {
+        displayNotepad()
     }
   }) //END OF DBCLICK ADDEVENTLISTENER
 
