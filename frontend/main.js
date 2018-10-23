@@ -35,18 +35,23 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(r => r.json())
     .then(dataObj => {
       titleField.value = dataObj.name
-      contentField.innerText = dataObj.content
+      contentField.value = dataObj.content
     })
   } //END OF FUNCTION
 
   function displayNotepad() {
     titleField.value = ''
-    contentField.innerHTML = ''
+    contentField.value = ''
   } //END OF FUNCTION
 
   document.addEventListener('dblclick', (event) => {
     if(event.target.className === 'note-icon' || event.target.parentElement.className === 'note-icon') {
       noteToDisplay = event.target.dataset.id || event.target.parentElement.dataset.id
+
+      // const editButton = document.createElement('button')
+      // editButton.innerText = 'Update'
+      // newNoteForm.appendChild(editButton)
+
       displayNote()
     }
     else if(event.target.className === 'notepad-icon' || event.target.parentElement.className === 'notepad-icon') {
@@ -59,8 +64,45 @@ document.addEventListener('DOMContentLoaded', () => {
   newNoteForm.addEventListener('submit', (event) => {
     event.preventDefault()
 
-    const title = document.getElementById('title')
-    const content = document.getElementById('content')
+    const newTitle = event.target.title.value
+    const newInput = event.target.content.value
+
+    const newNoteLi = document.createElement('li')
+    newNoteLi.setAttribute('class', 'note-icon')
+    newNoteLi.innerHTML = `
+      <img src='images/notepad-icon.png'><br>
+      <span>${newTitle}</span>
+    `
+
+    fetch('http://localhost:3000/notes', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: newTitle,
+        content: newInput
+      })
+    })
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      console.log(data)
+    })
+
+    fetch('http://localhost:3000/notes')
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      console.log(data)
+    })
+
+    newNoteForm.reset()
+    noteLinks.appendChild(newNoteLi)
+
   }) //END OF SUBMIT ADDEVENTLISTENER
 
 }) //END END
