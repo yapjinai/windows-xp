@@ -92,12 +92,23 @@ class Window {
 
   makeCloseable() {
     this.controlButtonClose.addEventListener('click', () => {
+      if (!this.isSaved()) {
+        console.log(this.contentInput.value);
+        console.log(this.content);
+        alert('Save first.')
+      }
+      else {
+        this.closeNote()
+      }
+    })
+  }
+    closeNote() {
+      activeWindow = null
       this.window.parentElement.removeChild(this.window)
       allWindows = allWindows.filter((window) => {
         return window.id !== this.id
       })
-    })
-  }
+    }
 
   makeSaveable() {
     this.form.addEventListener('submit', (event) => {
@@ -105,63 +116,79 @@ class Window {
       this.saveNote()
     })
   }
-    saveNote() {
-    if (this.id) { // if note already exists
-      fetch(`http://localhost:3000/notes/${this.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          content: this.contentInput.value
+    saveNote(){
+      if (this.id) { // if note already exists
+        fetch(`http://localhost:3000/notes/${this.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            content: this.contentInput.value
+            // TO DO: add name changes here
+          })
         })
-      })
+          .then(r => r.json())
+          .then(note => {
+            // update window object
+            this.id = note.id
+            this.name = note.name
+            this.content = note.content
+          })
+      }
+      else { // if new note
+        fetch(`http://localhost:3000/notes`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            content: this.contentInput.value
+          })
+        })
+          .then(r => r.json())
+          .then(note => {
+            //update window object
+            this.id = note.id
+            this.name = note.name
+            this.content = note.content
+
+            // display on dom
+            const noteLinks = document.querySelector('.note-links')
+            const noteLi = document.createElement('li')
+            noteLi.setAttribute('class', 'note-icon')
+            noteLi.dataset.id = note.id
+            noteLi.innerHTML = `
+              <img src='images/notepad-icon.png'><br>
+              <span>${note.name}</span>
+            `
+            noteLinks.appendChild(noteLi)
+          })
+      }
     }
-    else { // if new note
-      fetch(`http://localhost:3000/notes`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          content: this.contentInput.value
-        })
-      })
-        .then(r => r.json())
-        .then(note => {
-          const noteLinks = document.querySelector('.note-links')
-          const noteLi = document.createElement('li')
-          noteLi.setAttribute('class', 'note-icon')
-          noteLi.dataset.id = note.id
-          noteLi.innerHTML = `
-            <img src='images/notepad-icon.png'><br>
-            <span>${note.name}</span>
-          `
-          noteLinks.appendChild(noteLi)
-        })
-    }
-  }
 
   makeDeleteable() {
     //event listener
   }
-  deleteNote() {
+    deleteNote() {
     //fetch
   }
 
   makeBringToFrontable() {
     this.window.addEventListener('mousedown', () => {
       activeWindow = this
-      console.log(activeWindow);
       this.bringToFront()
     })
   }
     bringToFront() {
-      console.log(this.id);
       // bring to front
     }
+
+  isSaved() {
+    return this.contentInput.value === this.content
+  }
 }
 
 // TO DO:
