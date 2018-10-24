@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  const body = document.querySelector('body')
   const noteLinks = document.querySelector('.note-links')
-  const titleField = document.querySelector('#title')
-  const contentField = document.querySelector('#content')
 
-  let noteToDisplay
+  // const nameField = document.querySelector('#name')
+  // const contentField = document.querySelector('#content')
 
-  // get all notes
+  // let noteToDisplay
+
+  ////////////////////////////////////// get all notes
   function getAllNoteIcons() {
     fetch('http://localhost:3000/notes')
     .then(r => r.json())
@@ -18,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   getAllNoteIcons()
 
-////////////////// helpers
   function displayNoteIcon(note) {
     const noteLi = document.createElement('li')
     noteLi.setAttribute('class', 'note-icon')
@@ -30,36 +31,55 @@ document.addEventListener('DOMContentLoaded', () => {
     noteLinks.appendChild(noteLi)
   } //END OF FUNCTION
 
-  function displayNote() {
-    fetch(`http://localhost:3000/notes/${noteToDisplay}`)
-    .then(r => r.json())
-    .then(dataObj => {
-      titleField.value = dataObj.name
-      contentField.innerText = dataObj.content
-    })
-  } //END OF FUNCTION
-
-  function displayNotepad() {
-    titleField.value = ''
-    contentField.innerHTML = ''
-  } //END OF FUNCTION
+  ////////////////////////////////////// open a window for a new note
 
   document.addEventListener('dblclick', (event) => {
-    if(event.target.className === 'note-icon' || event.target.parentElement.className === 'note-icon') {
-      noteToDisplay = event.target.dataset.id || event.target.parentElement.dataset.id
-      displayNote()
+    if(
+      event.target.className === 'note-icon' ||
+        (event.target.parentElement &&
+        event.target.parentElement.className === 'note-icon')) {
+      fetchNote(event.target.dataset.id || event.target.parentElement.dataset.id)
     }
-    else if(event.target.className === 'notepad-icon' || event.target.parentElement.className === 'notepad-icon') {
-        displayNotepad()
+    else if(
+      event.target.className === 'notepad-icon' ||
+        (event.target.parentElement &&
+        event.target.parentElement.className === 'notepad-icon')) {
+      const note = {
+        name: '',
+        content: ''
+      }
+      newWindow(note)
     }
-  }) //END OF DBLCLICK ADDEVENTLISTENER
+  }) // end double click event listener
 
-  const newNoteForm = document.getElementById('new-note-form')
+  function fetchNote(noteId) {
+    fetch(`http://localhost:3000/notes/${noteId}`)
+    .then(r => r.json())
+    .then(note => {
+      newWindow(note)
+    })
+  }
 
-  newNoteForm.addEventListener('submit', (event) => {
-    event.preventDefault()
+  function newWindow(note) {
+    const noteWindow = new Window(note)
+    // noteWindow.open()
+  }
 
-    const title = document.getElementById('title')
-    const content = document.getElementById('content')
-  }) //END OF SUBMIT ADDEVENTLISTENER
+
+
+  //
+  // function displayNotepad() {
+  //   nameField.value = ''
+  //   contentField.innerHTML = ''
+  // } //END OF FUNCTION
+  //
+  //
+  // const newNoteForm = document.getElementById('new-note-form')
+  //
+  // newNoteForm.addEventListener('submit', (event) => {
+  //   event.preventDefault()
+  //
+  //   const name = document.getElementById('name')
+  //   const content = document.getElementById('content')
+  // }) //END OF SUBMIT ADDEVENTLISTENER
 }) //END END

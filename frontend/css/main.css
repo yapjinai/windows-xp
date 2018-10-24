@@ -116,8 +116,31 @@ body {
   .note-window .dragger {
     position: absolute;
     width: 531px;
-    height: 30px;
-    background: none; }
+    height: 30px; }
+    .note-window .dragger span {
+      position: absolute;
+      top: 3px;
+      left: 26px;
+      color: white;
+      text-shadow: 1px 1px #333;
+      line-height: 30px;
+      font-size: 14px;
+      font-family: 'tahoma'; }
+  .note-window .control-buttons {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 68px px;
+    height: 21px; }
+    .note-window .control-buttons .control-button-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 21px;
+      height: 21px; }
+      .note-window .control-buttons .control-button-close:active {
+        background-image: url("../images/control-button-close.png");
+        background-size: contain; }
   .note-window .note-display {
     position: absolute;
     left: 4px;
