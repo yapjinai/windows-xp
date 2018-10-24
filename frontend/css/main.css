@@ -1,6 +1,19 @@
 * {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+     supported by Chrome and Opera */ }
 
 body {
   width: 100%;
@@ -13,6 +26,7 @@ body {
   bottom: 0;
   width: 100vw;
   height: 3.5vh;
+  z-index: 100;
   background-image: url("../images/start-bar.png");
   background-size: contain;
   background-repeat: repeat-x; }
@@ -21,9 +35,20 @@ body {
     left: 0;
     width: 11.4vh;
     height: 3.5vh;
-    background-image: url("../images/start-button.png");
+    background-image: url("../images/start-button-off.png");
     background-size: contain;
     background-repeat: no-repeat; }
+  .start-bar .start-button.on {
+    background-image: url("../images/start-button-on.png"); }
+  .start-bar .start-menu {
+    display: none;
+    position: absolute;
+    bottom: 3.5vh;
+    width: 42vh;
+    height: 52.9vh;
+    z-index: 100;
+    background-image: url("../images/start-menu.png");
+    background-size: contain; }
   .start-bar .start-bar-right {
     position: absolute;
     right: 0;
@@ -32,6 +57,11 @@ body {
     background-image: url("../images/start-bar-right.png");
     background-size: contain;
     background-repeat: no-repeat; }
+    .start-bar .start-bar-right .time {
+      padding: 8px 5px;
+      font-size: 14px;
+      text-align: right;
+      color: white; }
 
 .note-links {
   position: absolute;
@@ -46,19 +76,19 @@ body {
     margin: 10px;
     width: 100px;
     min-height: 100px;
-    text-align: center;
-    z-index: 0; }
+    text-align: center; }
     .note-links .notepad-icon img,
     .note-links .note-icon img {
+      position: inherit;
       width: 54px;
-      height: 62px;
-      z-index: -1; }
+      height: 62px; }
     .note-links .notepad-icon span,
     .note-links .note-icon span {
-      margin: auto;
-      z-index: 1; }
+      position: inherit;
+      margin: auto; }
     .note-links .notepad-icon:active span,
     .note-links .note-icon:active span {
+      color: white;
       background: #4267a8; }
 
 .note-window {
@@ -67,9 +97,27 @@ body {
   height: 400px;
   left: 25vw;
   top: 25vh;
+  -webkit-touch-callout: text;
+  /* iOS Safari */
+  -webkit-user-select: text;
+  /* Safari */
+  -khtml-user-select: text;
+  /* Konqueror HTML */
+  -moz-user-select: text;
+  /* Firefox */
+  -ms-user-select: text;
+  /* Internet Explorer/Edge */
+  user-select: text;
+  /* Non-prefixed version, currently
+     supported by Chrome and Opera */
   background-image: url("../images/notepad.png");
   background-size: contain;
   background-repeat: no-repeat; }
+  .note-window .drag-bar {
+    position: absolute;
+    width: 531px;
+    height: 30px;
+    background: none; }
   .note-window .note-display {
     position: absolute;
     left: 4px;

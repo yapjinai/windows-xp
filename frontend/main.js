@@ -62,5 +62,4 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = document.getElementById('title')
     const content = document.getElementById('content')
   }) //END OF SUBMIT ADDEVENTLISTENER
-
 }) //END END
