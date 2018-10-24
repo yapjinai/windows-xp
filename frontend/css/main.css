@@ -113,7 +113,7 @@ body {
   background-image: url("../images/notepad.png");
   background-size: contain;
   background-repeat: no-repeat; }
-  .note-window .drag-bar {
+  .note-window .dragger {
     position: absolute;
     width: 531px;
     height: 30px;

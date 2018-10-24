@@ -1,3 +1,10 @@
+$notepad-height: 400px;
+$notepad-width: 604px;
+$notepad-dragger-height: 30px;
+$notepad-dragger-buttons-width: 73px;
+
+$start-bar-height: 3.5vh;
+
 * {
   margin: 0;
   padding: 0;
@@ -29,7 +36,7 @@ body {
   position: fixed;
   bottom: 0;
   width: 100vw;
-  height: 3.5vh;
+  height: $start-bar-height;
   z-index: 100;
 
   background: {
@@ -41,8 +48,8 @@ body {
   .start-button {
     position: absolute;
     left: 0;
-    width: 11.4vh; // refactor to variables!!!
-    height: 3.5vh;
+    width: 11.4vh;
+    height: $start-bar-height;
 
     background: {
       image: url('../images/start-button-off.png');
@@ -58,7 +65,7 @@ body {
     display: none;
     position: absolute;
 
-    bottom: 3.5vh;
+    bottom: $start-bar-height;
     width: 42vh;
     height: 52.9vh;
 
@@ -75,7 +82,7 @@ body {
     position: absolute;
     right: 0;
     width: 15vh;
-    height: 3.5vh;
+    height: $start-bar-height;
 
 
     background: {
@@ -140,8 +147,8 @@ body {
 .note-window {
   position: absolute;
 
-  width: 604px;
-  height: 400px;
+  width: $notepad-width;
+  height: $notepad-height;
 
   left: 25vw;
   top: 25vh;
@@ -161,11 +168,11 @@ body {
     repeat: no-repeat;
   }
 
-  .drag-bar {
+  .dragger {
     position: absolute;
 
-    width: 531px;
-    height: 30px;
+    width: $notepad-width - $notepad-dragger-buttons-width;
+    height: $notepad-dragger-height;
 
     background: none;
   }
