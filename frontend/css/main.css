@@ -1,6 +1,19 @@
 * {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+     supported by Chrome and Opera */ }
 
 body {
   width: 100%;
@@ -12,30 +25,47 @@ body {
   position: fixed;
   bottom: 0;
   width: 100vw;
-  height: 3.5vh;
+  height: 30px;
+  z-index: 100;
   background-image: url("../images/start-bar.png");
   background-size: contain;
   background-repeat: repeat-x; }
   .start-bar .start-button {
     position: absolute;
     left: 0;
-    width: 11.4vh;
-    height: 3.5vh;
-    background-image: url("../images/start-button.png");
+    width: 97px;
+    height: 30px;
+    background-image: url("../images/start-button-off.png");
     background-size: contain;
     background-repeat: no-repeat; }
+  .start-bar .start-button.on {
+    background-image: url("../images/start-button-on.png"); }
+  .start-bar .start-menu {
+    display: none;
+    position: absolute;
+    bottom: 30px;
+    width: 382px;
+    height: 481.0184210526px;
+    z-index: 100;
+    background-image: url("../images/start-menu.png");
+    background-size: contain; }
   .start-bar .start-bar-right {
     position: absolute;
     right: 0;
-    width: 15vh;
-    height: 3.5vh;
+    width: 129px;
+    height: 30px;
     background-image: url("../images/start-bar-right.png");
     background-size: contain;
     background-repeat: no-repeat; }
+    .start-bar .start-bar-right .time {
+      padding: 8px;
+      font-size: 12px;
+      text-align: right;
+      color: white; }
 
 .note-links {
   position: absolute;
-  height: 85vh;
+  height: calc(100vh - 30px);
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -46,19 +76,19 @@ body {
     margin: 10px;
     width: 100px;
     min-height: 100px;
-    text-align: center;
-    z-index: 0; }
+    text-align: center; }
     .note-links .notepad-icon img,
     .note-links .note-icon img {
+      position: inherit;
       width: 54px;
-      height: 62px;
-      z-index: -1; }
+      height: 62px; }
     .note-links .notepad-icon span,
     .note-links .note-icon span {
-      margin: auto;
-      z-index: 1; }
+      position: inherit;
+      margin: auto; }
     .note-links .notepad-icon:active span,
     .note-links .note-icon:active span {
+      color: white;
       background: #4267a8; }
 
 .note-window {
@@ -67,9 +97,50 @@ body {
   height: 400px;
   left: 25vw;
   top: 25vh;
+  -webkit-touch-callout: text;
+  /* iOS Safari */
+  -webkit-user-select: text;
+  /* Safari */
+  -khtml-user-select: text;
+  /* Konqueror HTML */
+  -moz-user-select: text;
+  /* Firefox */
+  -ms-user-select: text;
+  /* Internet Explorer/Edge */
+  user-select: text;
+  /* Non-prefixed version, currently
+     supported by Chrome and Opera */
   background-image: url("../images/notepad.png");
   background-size: contain;
   background-repeat: no-repeat; }
+  .note-window .dragger {
+    position: absolute;
+    width: 531px;
+    height: 30px; }
+    .note-window .dragger span {
+      position: absolute;
+      top: 3px;
+      left: 26px;
+      color: white;
+      text-shadow: 1px 1px #333;
+      line-height: 30px;
+      font-size: 14px;
+      font-family: 'tahoma'; }
+  .note-window .control-buttons {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 68px px;
+    height: 21px; }
+    .note-window .control-buttons .control-button-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 21px;
+      height: 21px; }
+      .note-window .control-buttons .control-button-close:active {
+        background-image: url("../images/control-button-close.png");
+        background-size: contain; }
   .note-window .note-display {
     position: absolute;
     left: 4px;

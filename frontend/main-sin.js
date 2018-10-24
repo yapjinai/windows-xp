@@ -49,11 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
   } //END OF FUNCTION
 
   document.addEventListener('dblclick', (event) => {
+    console.log('hi');
     if(event.target.className === 'note-icon' || event.target.parentElement.className === 'note-icon') {
       noteToDisplay = event.target.dataset.id || event.target.parentElement.dataset.id
       displayNote()
 
-      // id = 
+      // id =
 
       editButton.addEventListener('click', (event) => {
         let newTitle = event.target.parentElement[0].value

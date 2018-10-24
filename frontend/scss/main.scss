@@ -1,7 +1,40 @@
+$notepad-height: 400px;
+$notepad-width: 604px;
+$notepad-dragger-height: 30px;
+$control-buttons-width: 73px;
+$control-button-width: 21px;
+
+$note-display-width: 567px;
+$note-display-height: 334px;
+$note-display-left: 4px;
+$note-display-top: 51px;
+
+$notepad-icon-width: 54px;
+$notepad-icon-height: 62px;
+
+$start-bar-height: 30px;
+$start-button-width: 97px;
+$start-bar-right-width: 129px;
+
+$start-menu-width: 382px;
+$start-menu-height: (957 / 760) * 382px;
+
+$main-height: calc(100vh - #{$start-bar-height});
+
 * {
   margin: 0;
   padding: 0;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+   -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+       -ms-user-select: none; /* Internet Explorer/Edge */
+           user-select: none; /* Non-prefixed version, currently
+                                 supported by Chrome and Opera */
 }
+
+///////////////////////////////////// body
 
 body {
   width: 100%;
@@ -15,14 +48,14 @@ body {
   font-family: 'tahoma', sans-serif;
 }
 
-///////////////////////////////////////// start bar
+///////////////////////////////////// start bar
 
 .start-bar {
   position: fixed;
   bottom: 0;
   width: 100vw;
-
-  height: 3.5vh;
+  height: $start-bar-height;
+  z-index: 100;
 
   background: {
     image: url('../images/start-bar.png');
@@ -33,26 +66,55 @@ body {
   .start-button {
     position: absolute;
     left: 0;
-    width: 11.4vh;
-    height: 3.5vh;
+    width: $start-button-width;
+    height: $start-bar-height;
 
     background: {
-      image: url('../images/start-button.png');
+      image: url('../images/start-button-off.png');
       size: contain;
       repeat: no-repeat;
     }
+  }
+  .start-button.on {
+    background-image: url('../images/start-button-on.png');
+  }
+
+  .start-menu {
+    display: none;
+    position: absolute;
+
+    bottom: $start-bar-height;
+    width: $start-menu-width;
+    height: $start-menu-height;
+
+    z-index: 100;
+
+    background: {
+      image: url('../images/start-menu.png');
+      size: contain;
+    }
+
   }
 
   .start-bar-right {
     position: absolute;
     right: 0;
-    width: 15vh;
-    height: 3.5vh;
+    width: $start-bar-right-width;
+    height: $start-bar-height;
+
 
     background: {
       image: url('../images/start-bar-right.png');
       size: contain;
       repeat: no-repeat;
+    }
+
+    .time {
+      padding: 8px;
+
+      font-size: 12px;
+      text-align: right;
+      color: white;
     }
   }
 }
@@ -61,7 +123,7 @@ body {
 
 .note-links {
   position: absolute;
-  height: 85vh;
+  height: $main-height;
 
   display: flex;
   flex-wrap: wrap;
@@ -77,19 +139,20 @@ body {
     width: 100px;
     min-height: 100px;
     text-align: center;
-    z-index: 0;
 
     img {
-      width: 54px;
-      height: 62px;
-      z-index: -1;
+      position: inherit;
+      width: $notepad-icon-width;
+      height: $notepad-icon-height;
     }
 
     span {
+      position: inherit;
       margin: auto;
-      z-index: 1;
     }
+
     &:active span {
+      color: white;
       background: #4267a8;
     }
   }
@@ -100,11 +163,19 @@ body {
 .note-window {
   position: absolute;
 
-  width: 604px;
-  height: 400px;
+  width: $notepad-width;
+  height: $notepad-height;
 
   left: 25vw;
   top: 25vh;
+
+  -webkit-touch-callout: text; /* iOS Safari */
+   -webkit-user-select: text; /* Safari */
+    -khtml-user-select: text; /* Konqueror HTML */
+      -moz-user-select: text; /* Firefox */
+       -ms-user-select: text; /* Internet Explorer/Edge */
+           user-select: text; /* Non-prefixed version, currently
+                                 supported by Chrome and Opera */
 
   background: {
     image: url('../images/notepad.png');
@@ -112,13 +183,57 @@ body {
     repeat: no-repeat;
   }
 
+  .dragger {
+    position: absolute;
+
+    width: $notepad-width - $control-buttons-width;
+    height: $notepad-dragger-height;
+
+    span {
+      position: absolute;
+      top: 3px;
+      left: 26px;
+
+      color: white;
+      text-shadow: 1px 1px #333;
+      line-height: $notepad-dragger-height;
+      font: {
+        size: 14px;
+        family: 'tahoma';
+      }
+    }
+  }
+
+  .control-buttons {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 3 * $control-button-width + 5 px;
+    height: $control-button-width;
+
+    .control-button-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: $control-button-width;
+      height: $control-button-width;
+
+      &:active {
+        background: {
+          image: url('../images/control-button-close.png');
+          size: contain;
+        }
+      }
+    }
+  }
+
   .note-display {
     position: absolute;
-    left: 4px;
-    top: 51px;
+    left: $note-display-left;
+    top: $note-display-top;
 
-    width: 567px;
-    height: 334px;
+    width: $note-display-width;
+    height: $note-display-height;
     padding: 5px;
 
     background-color: white;
