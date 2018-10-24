@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const titleField = document.querySelector('#title')
   const contentField = document.querySelector('#content')
 
+  const newNoteForm = document.getElementById('new-note-form')
+  const editButton = document.getElementById('edit-button')
+  const deleteButton = document.getElementById('delete-button')
+
   let noteToDisplay
 
   // get all notes
@@ -47,19 +51,39 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('dblclick', (event) => {
     if(event.target.className === 'note-icon' || event.target.parentElement.className === 'note-icon') {
       noteToDisplay = event.target.dataset.id || event.target.parentElement.dataset.id
-
-      // const editButton = document.createElement('button')
-      // editButton.innerText = 'Update'
-      // newNoteForm.appendChild(editButton)
-
       displayNote()
+
+      // id = 
+
+      editButton.addEventListener('click', (event) => {
+        let newTitle = event.target.parentElement[0].value
+        let newInput = event.target.parentElement[1].value
+
+        fetch(`http://localhost:3000/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: newTitle,
+            content: newInput
+          })
+        })
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          console.log(data)
+        })
+      }) //END OF EDIT ADDEVENTLISTENER
+
     }
     else if(event.target.className === 'notepad-icon' || event.target.parentElement.className === 'notepad-icon') {
         displayNotepad()
     }
   }) //END OF DBLCLICK ADDEVENTLISTENER
 
-  const newNoteForm = document.getElementById('new-note-form')
 
   newNoteForm.addEventListener('submit', (event) => {
     event.preventDefault()
@@ -102,7 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     newNoteForm.reset()
     noteLinks.appendChild(newNoteLi)
-
   }) //END OF SUBMIT ADDEVENTLISTENER
 
+
+  // deleteButton.addEventListener('click' (event) => {
+  //
+  // }) //END OF DELETE ADDEVENTLISTENER
+
 }) //END END
+
+// hide edit and delete on new save
+// hide new save on edit
