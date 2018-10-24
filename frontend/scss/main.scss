@@ -3,7 +3,14 @@ $notepad-width: 604px;
 $notepad-dragger-height: 30px;
 $notepad-dragger-buttons-width: 73px;
 
-$start-bar-height: 3.5vh;
+$start-bar-height: 30px;
+$start-button-width: 97px;
+$start-bar-right-width: 129px;
+
+$start-menu-width: 382px;
+$start-menu-height: (957 / 760) * 382px;
+
+$main-height: calc(100vh - #{$start-bar-height});
 
 * {
   margin: 0;
@@ -48,7 +55,7 @@ body {
   .start-button {
     position: absolute;
     left: 0;
-    width: 11.4vh;
+    width: $start-button-width;
     height: $start-bar-height;
 
     background: {
@@ -66,8 +73,8 @@ body {
     position: absolute;
 
     bottom: $start-bar-height;
-    width: 42vh;
-    height: 52.9vh;
+    width: $start-menu-width;
+    height: $start-menu-height;
 
     z-index: 100;
 
@@ -81,7 +88,7 @@ body {
   .start-bar-right {
     position: absolute;
     right: 0;
-    width: 15vh;
+    width: $start-bar-right-width;
     height: $start-bar-height;
 
 
@@ -92,12 +99,11 @@ body {
     }
 
     .time {
-      padding: 8px 5px;
+      padding: 8px;
 
-      font-size: 14px;
+      font-size: 12px;
       text-align: right;
       color: white;
-      // background: blue;
     }
   }
 }
@@ -106,7 +112,7 @@ body {
 
 .note-links {
   position: absolute;
-  height: 85vh;
+  height: $main-height;
 
   display: flex;
   flex-wrap: wrap;
