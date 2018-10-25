@@ -2,13 +2,13 @@ const windowContainer = document.querySelector('.window-container')
 
 let allWindows = []
 let anonymousIds = 0
-let activeWindow
+// let activeWindow
 
 class Window {
 
   constructor(note) {
     allWindows.push(this)
-    activeWindow = this
+    // activeWindow = this
 
     this.note = note
     this.id = this.note.id || --anonymousIds
@@ -44,14 +44,6 @@ class Window {
   icon() {
     return allIcons.find((icon) => icon.id() === this.id)
   }
-  // id() {
-  //   if (this.note.id) {
-  //     return this.note.id
-  //   }
-  //   else {
-  //     return --anonymousIds
-  //   }
-  // }
   name() {
     return this.note.name
   }
@@ -144,7 +136,7 @@ class Window {
     }
   }
   closeWindow() {
-    activeWindow = null
+    // activeWindow = null
     this.window.parentElement.removeChild(this.window)
     allWindows = allWindows.filter((window) => {
       return window.id !== this.id
@@ -228,14 +220,24 @@ class Window {
 
   makeBringToFrontable() {
     this.window.addEventListener('mousedown', () => {
-      activeWindow = this
+      // activeWindow = this
       this.bringToFront()
     })
   }
   bringToFront() {
-    // bring to front
+    allWindows = allWindows.filter((window) => {
+      return window.id !== this.id
+    })
+    allWindows.push(this)
+    this.setZIndices()
   }
-  // finish this
+  setZIndices() {
+    allWindows.forEach((windowObj) => {
+      const zIndex = allWindows.indexOf(windowObj)
+      windowObj.window.style.zIndex = `${zIndex}`
+      console.log(`window '${windowObj.name()}' has z-index ${zIndex}`);
+    })
+  }
 
   isSaved() {
     return this.contentInput.value === this.content()
@@ -258,9 +260,5 @@ class Window {
     this.titleBar.innerHTML = `
       ${this.name()}* - Notepad
     `
-  }
-
-  fileMenu() {
-    // this.file.addEventListener('click')
   }
 }

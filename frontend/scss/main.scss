@@ -27,6 +27,7 @@ $start-menu-height: (957 / 760) * 382px;
 
 $main-height: calc(100vh - #{$start-bar-height});
 
+////////////////////////////////// z indices
 $icon-container-z-index: -10;
 $window-container-z-index: 10;
   $file-menu-z-index: 1;
