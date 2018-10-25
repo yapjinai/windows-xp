@@ -99,20 +99,22 @@ class Window {
 
   makeCloseable() {
     this.controlButtonClose.addEventListener('click', () => {
+      this.closeNote()
+    })
+  }
+    closeNote() {
       if (!this.isSaved()) {
         alert('Please save your file first.')
       }
       else {
-        this.closeNote()
+        activeWindow = null
+        this.window.parentElement.removeChild(this.window)
+        allWindows = allWindows.filter((window) => {
+          return window.id !== this.id
+        })
       }
-    })
-  }
-    closeNote() {
-      activeWindow = null
-      this.window.parentElement.removeChild(this.window)
-      allWindows = allWindows.filter((window) => {
-        return window.id !== this.id
-      })
+
+
     }
 
   makeSaveable() {
