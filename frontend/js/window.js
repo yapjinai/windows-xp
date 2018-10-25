@@ -27,8 +27,13 @@ class Window {
     this.contentInput = this.window.querySelector('textarea')
     this.makeSaveable()
 
+<<<<<<< HEAD
     this.titleBar = this.window.querySelector('.title-bar')
     this.indicateSavedStatus()
+=======
+    this.deleteButton = this.window.querySelector('.delete')
+    this.makeDeleteable()
+>>>>>>> 4ecf25b4ab3bc64a6ed8f449466f8ef9f976cc0a
   }
 
   openWindow() {
@@ -50,6 +55,7 @@ class Window {
           <textarea>${this.content}</textarea>
           <button>Save</button>
         </form>
+        <button class="delete">Delete</button>
       </div>
     `
 
@@ -117,6 +123,7 @@ class Window {
       this.saveNote()
     })
   }
+<<<<<<< HEAD
     saveNote(){
       if (this.id) { // if note already exists
         fetch(`http://localhost:3000/notes/${this.id}`, {
@@ -129,6 +136,19 @@ class Window {
             content: this.contentInput.value
             // TO DO: add name changes here
           })
+=======
+
+    saveNote() {
+    if (this.id) { // if note already exists
+      fetch(`http://localhost:3000/notes/${this.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          content: this.contentInput.value
+>>>>>>> 4ecf25b4ab3bc64a6ed8f449466f8ef9f976cc0a
         })
           .then(r => r.json())
           .then(note => {
@@ -174,10 +194,27 @@ class Window {
 
   makeDeleteable() {
     //event listener
+    this.deleteButton.addEventListener('click', (event) => {
+      event.preventDefault()
+      this.window.parentElement.removeChild(this.window) //close window
+      this.deleteNote()
+      this.removeNote()
+    })
   }
-    deleteNote() {
-      //fetch
-    }
+
+  deleteNote() {
+    //fetch
+    fetch(`http://localhost:3000/notes/${this.id}`, {
+      method: 'DELETE'
+    })
+  }
+
+  removeNote() {
+    //remove note from window container
+    let allNotes = document.getElementsByClassName('note-icon')
+    const removedNote = [...allNotes].find(note => parseInt(note.dataset.id) === this.id )
+    removedNote.remove()
+  }
 
   makeBringToFrontable() {
     this.window.addEventListener('mousedown', () => {
