@@ -115,6 +115,7 @@ body {
   background-size: contain;
   background-repeat: no-repeat; }
   .note-window .dragger {
+    border: 2px solid red;
     position: absolute;
     width: 531px;
     height: 30px; }
@@ -128,10 +129,11 @@ body {
       font-size: 14px;
       font-family: 'tahoma'; }
   .note-window .control-buttons {
+    border: 2px solid blue;
     position: absolute;
     top: 6px;
     right: 6px;
-    width: 68px px;
+    width: 68px;
     height: 21px; }
     .note-window .control-buttons .control-button-close {
       position: absolute;
@@ -142,7 +144,14 @@ body {
       .note-window .control-buttons .control-button-close:active {
         background-image: url("../images/control-button-close.png");
         background-size: contain; }
+  .note-window .file-menu {
+    position: absolute;
+    border: 2px solid pink; }
+    .note-window .file-menu .file {
+      position: absolute;
+      border: 2px solid gold; }
   .note-window .note-display {
+    border: 2px solid green;
     position: absolute;
     left: 4px;
     top: 51px;

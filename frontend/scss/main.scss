@@ -187,6 +187,8 @@ body {
   }
 
   .dragger {
+    border: 2px solid red;
+
     position: absolute;
 
     width: $notepad-width - $control-buttons-width;
@@ -208,10 +210,11 @@ body {
   }
 
   .control-buttons {
+    border: 2px solid blue;
     position: absolute;
     top: 6px;
     right: 6px;
-    width: 3 * $control-button-width + 5 px;
+    width: 3 * $control-button-width + 5;
     height: $control-button-width;
 
     .control-button-close {
@@ -230,7 +233,21 @@ body {
     }
   }
 
+  .file-menu {
+    position: absolute;
+
+    border: 2px solid pink;
+
+    .file {
+      position: absolute;
+      
+      border: 2px solid gold;
+    }
+  }
+
   .note-display {
+    border: 2px solid green;
+
     position: absolute;
     left: $note-display-left;
     top: $note-display-top;

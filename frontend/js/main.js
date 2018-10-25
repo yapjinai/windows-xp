@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
       name: 'Untitled',
       content: ''
     }
-    new Icon(note)
+    const test = new Icon(note)
+    // test.createWindow()
   }
 
   function displayAllNoteIcons() {

@@ -11,9 +11,11 @@ class Window {
     activeWindow = this
 
     this.note = note
+    this.id = this.note.id || --anonymousIds
     this.openWindow()
 
-    this.window = windowContainer.querySelector(`[data-id='${this.id()}']`)
+    this.window = windowContainer.querySelector(`[data-id='${this.id}']`)
+    console.log(this.id);
     this.makeBringToFrontable()
 
     this.dragger = this.window.querySelector('.dragger')
@@ -32,18 +34,21 @@ class Window {
     this.deleteButton = this.window.querySelector('.delete')
     this.makeDeleteable()
   }
+  ////////////////////////////////////////////////
+  ////////////////////////////////////////////////
+  ////////////////////////////////////////////////
 
   icon() {
-    return allIcons.find((icon) => icon.id() === this.id())
+    return allIcons.find((icon) => icon.id() === this.id)
   }
-  id() {
-    if (this.note.id) {
-      return this.note.id
-    }
-    else {
-      return --anonymousIds
-    }
-  }
+  // id() {
+  //   if (this.note.id) {
+  //     return this.note.id
+  //   }
+  //   else {
+  //     return --anonymousIds
+  //   }
+  // }
   name() {
     return this.note.name
   }
@@ -51,11 +56,14 @@ class Window {
     return this.note.content
   }
 
+  ////////////////////////////////////////////////
+  ////////////////////////////////////////////////
+  ////////////////////////////////////////////////
+
   openWindow() {
     const noteWindow = document.createElement('div')
     noteWindow.className = 'note-window'
-    noteWindow.dataset.id = this.id()
-
+    noteWindow.dataset.id = this.id
     noteWindow.innerHTML = `
       <div class='dragger'>
         <span class='title-bar'>${this.name()} - Notepad</span>
@@ -63,6 +71,10 @@ class Window {
 
       <div class='control-buttons'>
         <div class='control-button-close'></div>
+      </div>
+
+      <div class="file-menu">
+        <div class="file"></div>
       </div>
 
       <div class='note-display'>
@@ -133,7 +145,7 @@ class Window {
     activeWindow = null
     this.window.parentElement.removeChild(this.window)
     allWindows = allWindows.filter((window) => {
-      return window.id !== this.id()
+      return window.id !== this.id
     })
   }
 
@@ -148,7 +160,7 @@ class Window {
     this.saveNote()
   }
   saveNote() {
-    if (this.id() > 0) { // if note already exists
+    if (this.id > 0) { // if note already exists
         this.updateNote()
       }
       else { // if new note
@@ -156,7 +168,7 @@ class Window {
       }
     }
   updateNote() {
-      fetch(`http://localhost:3000/notes/${this.id()}`, {
+      fetch(`http://localhost:3000/notes/${this.id}`, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/json',
@@ -170,6 +182,7 @@ class Window {
         .then(r => r.json())
         .then(note => {
           this.note = note
+          this.id = note.id
           this.markSaved()
           this.icon().refreshIcon()
         })
@@ -189,6 +202,7 @@ class Window {
       .then(r => r.json())
       .then(note => {
         this.note = note
+        this.id = note.id
         this.markSaved()
 
         // display icon
@@ -205,7 +219,7 @@ class Window {
     })
   }
   deleteNote() {
-    fetch(`http://localhost:3000/notes/${this.id()}`, {
+    fetch(`http://localhost:3000/notes/${this.id}`, {
       method: 'DELETE'
     })
   }
@@ -217,6 +231,7 @@ class Window {
     })
   }
   bringToFront() {
+    console.log(this.id);
     // bring to front
   }
   // finish this
