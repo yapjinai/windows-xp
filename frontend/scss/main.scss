@@ -4,6 +4,9 @@ $notepad-dragger-height: 30px;
 $file-left: 4px;
 $file-width: 28px;
 $file-height: 20px;
+$file-menu-width: 120px;
+$file-menu-height: 143px;
+
 $control-buttons-width: 73px;
 $control-button-width: 21px;
 
@@ -194,11 +197,13 @@ body {
       left: $file-left;
       top: $notepad-dragger-height + $file-height;
 
-      width: 100px;
-      height: 100px;
+      width: $file-menu-width;
+      height: $file-menu-height;
 
-      background: red;
-      opacity: .5;
+      background: {
+        image: url('../images/file-menu.png');
+        size: contain;
+      }
 
       z-index: $file-menu-z-index;
     }

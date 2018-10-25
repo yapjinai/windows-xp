@@ -114,10 +114,10 @@ body {
       position: absolute;
       left: 4px;
       top: 50px;
-      width: 100px;
-      height: 100px;
-      background: red;
-      opacity: .5;
+      width: 120px;
+      height: 143px;
+      background-image: url("../images/file-menu.png");
+      background-size: contain;
       z-index: 1; }
     .window-container .note-window .file-menu.on {
       display: initial; }
