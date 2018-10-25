@@ -15,7 +15,6 @@ class Window {
     this.openWindow()
 
     this.window = windowContainer.querySelector(`[data-id='${this.id}']`)
-    console.log(this.id);
     this.makeBringToFrontable()
 
     this.dragger = this.window.querySelector('.dragger')
@@ -33,6 +32,9 @@ class Window {
 
     this.deleteButton = this.window.querySelector('.delete')
     this.makeDeleteable()
+
+    this.file = this.window.querySelector('.file')
+    this.fileMenu()
   }
   ////////////////////////////////////////////////
   ////////////////////////////////////////////////
@@ -73,9 +75,7 @@ class Window {
         <div class='control-button-close'></div>
       </div>
 
-      <div class="file-menu">
-        <div class="file"></div>
-      </div>
+      <div class="file"></div>
 
       <div class='note-display'>
         <form>
@@ -259,6 +259,10 @@ class Window {
     this.titleBar.innerHTML = `
       ${this.name()}* - Notepad
     `
+  }
+
+  fileMenu() {
+    // this.file.addEventListener('click')
   }
 }
 

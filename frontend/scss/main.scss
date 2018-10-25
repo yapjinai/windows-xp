@@ -1,6 +1,9 @@
 $notepad-height: 400px;
 $notepad-width: 604px;
 $notepad-dragger-height: 30px;
+$file-left: 4px;
+$file-width: 28px;
+$file-height: 20px;
 $control-buttons-width: 73px;
 $control-button-width: 21px;
 
@@ -187,7 +190,7 @@ body {
   }
 
   .dragger {
-    border: 2px solid red;
+    // border: 2px solid red;
 
     position: absolute;
 
@@ -210,7 +213,7 @@ body {
   }
 
   .control-buttons {
-    border: 2px solid blue;
+    // border: 2px solid blue;
     position: absolute;
     top: 6px;
     right: 6px;
@@ -233,20 +236,22 @@ body {
     }
   }
 
-  .file-menu {
+  .file {
     position: absolute;
 
-    border: 2px solid pink;
+    left: $file-left;
+    top: $notepad-dragger-height;
 
-    .file {
-      position: absolute;
-      
-      border: 2px solid gold;
-    }
+    width: $file-width;
+    height: $file-height;
+
+    // border: 2px solid pink;
+    // background: red;
+    // opacity: .5;
   }
 
   .note-display {
-    border: 2px solid green;
+    // border: 2px solid green;
 
     position: absolute;
     left: $note-display-left;
