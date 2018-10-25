@@ -25,13 +25,13 @@ class Window {
 
     this.form = this.window.querySelector('form')
     this.contentInput = this.window.querySelector('textarea')
-    this.makeSaveable()
+    // this.makeSaveable()
 
     this.titleBar = this.window.querySelector('.title-bar')
     this.indicateSavedStatus()
 
-    this.deleteButton = this.window.querySelector('.delete')
-    this.makeDeleteable()
+    // this.deleteButton = this.window.querySelector('.delete')
+    // this.makeDeleteable()
 
     this.file = this.window.querySelector('.file')
     this.fileMenu = this.window.querySelector('.file-menu')
@@ -74,9 +74,9 @@ class Window {
       <div class='note-display'>
         <form>
           <textarea>${this.content()}</textarea>
-          <button>Save</button>
+          <!-- <button>Save</button> -->
         </form>
-        <button class='delete'>Delete</button>
+        <!-- <button class='delete'>Delete</button> -->
       </div>
     `
 
