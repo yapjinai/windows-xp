@@ -67,11 +67,13 @@ body {
   z-index: $icon-container-z-index;
 
   position: absolute;
+  width: 100%;
   height: $main-height;
 
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  align-content: flex-start;
 
   list-style: none;
 

@@ -2,13 +2,13 @@ const windowContainer = document.querySelector('.window-container')
 
 let allWindows = []
 let anonymousIds = 0
-// let activeWindow
+let activeWindow
 
 class Window {
 
   constructor(note) {
     allWindows.push(this)
-    // activeWindow = this
+    activeWindow = this
 
     this.note = note
     this.id = this.note.id || --anonymousIds
@@ -84,7 +84,7 @@ class Window {
   }
 
   makeDraggable() {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0
+    let changeX = 0, changeY = 0, posX = 0, posY = 0
 
     this.dragger.addEventListener('mousedown', dragMouseDown.bind(this))
 
@@ -94,8 +94,8 @@ class Window {
     function dragMouseDown(e) {
       e.preventDefault()
       // get the mouse cursor position at startup:
-      pos3 = e.clientX
-      pos4 = e.clientY
+      posX = e.clientX
+      posY = e.clientY
       document.addEventListener('mouseup', boundCloseDragElement)
       // call a function whenever the cursor moves:
       document.addEventListener('mousemove', boundElementDrag)
@@ -104,13 +104,24 @@ class Window {
     function elementDrag(e) {
       e.preventDefault()
       // calculate the new cursor position:
-      pos1 = pos3 - e.clientX
-      pos2 = pos4 - e.clientY
-      pos3 = e.clientX
-      pos4 = e.clientY
+      changeX = posX - e.clientX
+      changeY = posY - e.clientY
+      posX = e.clientX
+      posY = e.clientY
       // set the element's new position:
-      this.window.style.top = (this.window.offsetTop - pos2) + 'px'
-      this.window.style.left = (this.window.offsetLeft - pos1) + 'px'
+      // if (parseInt(this.window.style.top) !== 0)
+      const newX = this.window.offsetLeft - changeX
+      const newY = this.window.offsetTop - changeY
+
+      if (newX >= 0 &&
+          newY >= 0 &&
+          newX <= iconContainer.offsetWidth - this.dragger.offsetWidth &&
+          newY <= iconContainer.offsetHeight - this.dragger.offsetHeight) {
+        this.window.style.top = newY + 'px'
+        this.window.style.left = newX + 'px'
+      }
+      // if (this.window.offsetLeft - changeX >= 0) {
+      // }
     }
 
     function closeDragElement() {
@@ -136,7 +147,7 @@ class Window {
     }
   }
   closeWindow() {
-    // activeWindow = null
+    activeWindow = null
     this.window.parentElement.removeChild(this.window)
     allWindows = allWindows.filter((window) => {
       return window.id !== this.id
@@ -220,7 +231,7 @@ class Window {
 
   makeBringToFrontable() {
     this.window.addEventListener('mousedown', () => {
-      // activeWindow = this
+      activeWindow = this
       this.bringToFront()
     })
   }
@@ -235,7 +246,6 @@ class Window {
     allWindows.forEach((windowObj) => {
       const zIndex = allWindows.indexOf(windowObj)
       windowObj.window.style.zIndex = `${zIndex}`
-      console.log(`window '${windowObj.name()}' has z-index ${zIndex}`);
     })
   }
 

@@ -49,7 +49,7 @@ class Icon {
       const noteId = this.id()
 
       if (this.window()) {
-        // activeWindow = this.window()
+        activeWindow = this.window()
         console.log('Window already open');
       }
       else {
