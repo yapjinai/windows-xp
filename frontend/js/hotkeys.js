@@ -11,3 +11,5 @@
 // })
 //
 // create
+
+// look into what the console log of e is 

@@ -26,6 +26,9 @@ class Window {
     this.form = this.window.querySelector('form')
     this.contentInput = this.window.querySelector('textarea')
     this.makeSaveable()
+
+    this.deleteButton = this.window.querySelector('.delete')
+    this.makeDeleteable()
   }
 
   openWindow() {
@@ -47,6 +50,7 @@ class Window {
           <textarea>${this.content}</textarea>
           <button>Save</button>
         </form>
+        <button class="delete">Delete</button>
       </div>
     `
 
@@ -105,6 +109,7 @@ class Window {
       this.saveNote()
     })
   }
+
     saveNote() {
     if (this.id) { // if note already exists
       fetch(`http://localhost:3000/notes/${this.id}`, {
@@ -146,9 +151,26 @@ class Window {
 
   makeDeleteable() {
     //event listener
+    this.deleteButton.addEventListener('click', (event) => {
+      event.preventDefault()
+      this.window.parentElement.removeChild(this.window) //close window
+      this.deleteNote()
+      this.removeNote()
+    })
   }
+
   deleteNote() {
     //fetch
+    fetch(`http://localhost:3000/notes/${this.id}`, {
+      method: 'DELETE'
+    })
+  }
+
+  removeNote() {
+    //remove note from window container
+    let allNotes = document.getElementsByClassName('note-icon')
+    const removedNote = [...allNotes].find(note => parseInt(note.dataset.id) === this.id )
+    removedNote.remove()
   }
 
   makeBringToFrontable() {
