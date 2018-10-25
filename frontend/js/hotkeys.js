@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function save() {
     if (activeWindow) {
       activeWindow.saveNote()
-      alert(`"${activeWindow.name}" saved.`)
     }
   }
 

@@ -26,6 +26,9 @@ class Window {
     this.form = this.window.querySelector('form')
     this.contentInput = this.window.querySelector('textarea')
     this.makeSaveable()
+
+    this.titleBar = this.window.querySelector('.title-bar')
+    this.indicateSavedStatus()
   }
 
   openWindow() {
@@ -35,7 +38,7 @@ class Window {
 
     noteWindow.innerHTML = `
       <div class='dragger'>
-        <span>${this.name} - Notepad</span>
+        <span class='title-bar'>${this.name} - Notepad</span>
       </div>
 
       <div class='control-buttons'>
@@ -93,9 +96,7 @@ class Window {
   makeCloseable() {
     this.controlButtonClose.addEventListener('click', () => {
       if (!this.isSaved()) {
-        console.log(this.contentInput.value);
-        console.log(this.content);
-        alert('Save first.')
+        alert('Please save your file first.')
       }
       else {
         this.closeNote()
@@ -135,6 +136,7 @@ class Window {
             this.id = note.id
             this.name = note.name
             this.content = note.content
+            this.markSaved()
           })
       }
       else { // if new note
@@ -154,6 +156,7 @@ class Window {
             this.id = note.id
             this.name = note.name
             this.content = note.content
+            this.markSaved()
 
             // display on dom
             const noteLinks = document.querySelector('.note-links')
@@ -173,8 +176,8 @@ class Window {
     //event listener
   }
     deleteNote() {
-    //fetch
-  }
+      //fetch
+    }
 
   makeBringToFrontable() {
     this.window.addEventListener('mousedown', () => {
@@ -187,8 +190,30 @@ class Window {
     }
 
   isSaved() {
+    console.log(this.contentInput.value);
+    console.log(this.content);
     return this.contentInput.value === this.content
   }
+
+  indicateSavedStatus() {
+    this.contentInput.addEventListener('keydown', (e) => {
+      if (this.isSaved()) {
+        this.markSaved()
+      } else {
+        this.markNotSaved()
+      }
+    })
+  }
+    markSaved() {
+      this.titleBar.innerHTML = `
+        ${this.name} - Notepad
+      `
+    }
+    markNotSaved() {
+      this.titleBar.innerHTML = `
+        ${this.name}* - Notepad
+      `
+    }
 }
 
 // TO DO:
