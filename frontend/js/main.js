@@ -1,37 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   const noteLinks = document.querySelector('.note-links')
-  
-////////////////////////////////////// add double click event listener
-  document.addEventListener('dblclick', (event) => {
-    if(
-      event.target.className === 'note-icon' ||
-        (event.target.parentElement &&
-        event.target.parentElement.className === 'note-icon')) {
 
-      const noteId = event.target.dataset.id || event.target.parentElement.dataset.id
-      const windowAlreadyExists = allWindows.find((window) => {
-        return window.id === parseInt(noteId)
-      })
+  ////////////////////////////////////// add double click event listener
+  function makeDoubleClickable() {
+    document.addEventListener('dblclick', (event) => {
+      if ( //////////////////////// if clicking on existing note
+        event.target.className === 'note-icon' ||
+          (event.target.parentElement &&
+          event.target.parentElement.className === 'note-icon')) {
 
-      if (windowAlreadyExists) {
-        console.log('already exists');
+        const noteId = event.target.dataset.id || event.target.parentElement.dataset.id
+        const windowAlreadyExists = allWindows.find((window) => {
+          return window.id === parseInt(noteId)
+        })
+
+        if (windowAlreadyExists) {
+          console.log('already exists');
+        }
+        else {
+          createWindow(event.target.dataset.id || event.target.parentElement.dataset.id)
+        }
       }
-      else {
-        fetchNote(event.target.dataset.id || event.target.parentElement.dataset.id)
+      else if ( //////////////////// if clicking on notepad icon
+        event.target.className === 'notepad-icon' ||
+          (event.target.parentElement &&
+          event.target.parentElement.className === 'notepad-icon')) {
+        const note = {
+          name: 'Untitled',
+          content: ''
+        }
+        new Window(note)
       }
-    }
-    else if(
-      event.target.className === 'notepad-icon' ||
-        (event.target.parentElement &&
-        event.target.parentElement.className === 'notepad-icon')) {
-      const note = {
-        name: 'Untitled',
-        content: ''
-      }
-      new Window(note)
-    }
-  })
+    })
+  }
+  makeDoubleClickable()
 
 ////////////////////////////////////// display all note icons
   function getAllNoteIcons() {
@@ -54,10 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
       <span>${note.name}</span>
     `
     noteLinks.appendChild(noteLi)
-  } //END OF FUNCTION
+  }
 
 ////////////////////////////////////// open note window
-  function fetchNote(noteId) {
+  function createWindow(noteId) {
     fetch(`http://localhost:3000/notes/${noteId}`)
     .then(r => r.json())
     .then(note => {
@@ -65,59 +68,4 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-///////////////////////////////////////////////////////
-// // GET NOTEPAD WORKING
-  // function displayNotepad() {
-  //   titleField.value = ''
-  //   contentField.value = ''
-  // } //END OF FUNCTION
-
-///////////////////////////////////////////////////////
-  // EDIT THIS
-//   function addSubmitEventListener() {
-//
-//     newNoteForm.addEventListener('submit', (event) => {
-//       event.preventDefault()
-//
-//       const newTitle = event.target.title.value
-//       const newInput = event.target.content.value
-//
-//       const newNoteLi = document.createElement('li')
-//       newNoteLi.setAttribute('class', 'note-icon')
-//       newNoteLi.innerHTML = `
-//         <img src='images/notepad-icon.png'><br>
-//         <span>${newTitle}</span>
-//       `
-//
-//       fetch('http://localhost:3000/notes', {
-//         method: 'POST',
-//         headers: {
-//           'Accept': 'application/json',
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//           name: newTitle,
-//           content: newInput
-//         })
-//       })
-//       .then(response => {
-//         return response.json()
-//       })
-//       .then(data => {
-//         console.log(data)
-//       })
-//
-//       fetch('http://localhost:3000/notes')
-//       .then(response => {
-//         return response.json()
-//       })
-//       .then(data => {
-//         console.log(data)
-//       })
-//
-//       newNoteForm.reset()
-//       noteLinks.appendChild(newNoteLi)
-//     }) //END OF SUBMIT ADDEVENTLISTENER
-//   }
-//
 })

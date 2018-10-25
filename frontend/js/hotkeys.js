@@ -19,7 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
           case 'w':
             close()
             break;
-
+          // case 'n':
+          //   // new()
+          //   break;
         }
       }
     })
@@ -34,7 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function close() {
     if (activeWindow) {
-      activeWindow.closeNote()
+      activeWindow.confirmCloseWindow()
     }
   }
+
+  // function new() {
+  //
+  // }
 })

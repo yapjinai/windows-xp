@@ -99,23 +99,26 @@ class Window {
 
   makeCloseable() {
     this.controlButtonClose.addEventListener('click', () => {
-      this.closeNote()
+      this.confirmCloseWindow()
     })
   }
-    closeNote() {
+    confirmCloseWindow() {
       if (!this.isSaved()) {
-        alert('Please save your file first.')
+        if (confirm('Close without saving?')) {
+          this.closeWindow()
+        }
       }
       else {
+        this.closeWindow()
+      }
+    }
+      closeWindow() {
         activeWindow = null
         this.window.parentElement.removeChild(this.window)
         allWindows = allWindows.filter((window) => {
           return window.id !== this.id
         })
       }
-
-
-    }
 
   makeSaveable() {
     this.form.addEventListener('submit', (event) => {
@@ -183,29 +186,25 @@ class Window {
           })
       }
 
-// check these???
   makeDeleteable() {
-    //event listener
     this.deleteButton.addEventListener('click', (event) => {
       event.preventDefault()
-      this.window.parentElement.removeChild(this.window) //close window
-      this.deleteNote()
-      this.removeNote()
+      this.closeWindow() // delete window object
+      this.deleteNote() // delete note from backend
+      this.removeNote() // remove icon on page
     })
   }
+
     deleteNote() {
-      //fetch
       fetch(`http://localhost:3000/notes/${this.id}`, {
         method: 'DELETE'
       })
     }
     removeNote() {
-    //remove note from window container
-    let allNotes = document.getElementsByClassName('note-icon')
-    const removedNote = [...allNotes].find(note => parseInt(note.dataset.id) === this.id )
-    removedNote.remove()
-  }
-// check these???
+      let allNotes = document.getElementsByClassName('note-icon')
+      const removedNote = [...allNotes].find(note => parseInt(note.dataset.id) === this.id )
+      removedNote.remove()
+    }
 
   makeBringToFrontable() {
     this.window.addEventListener('mousedown', () => {
@@ -216,13 +215,15 @@ class Window {
     bringToFront() {
       // bring to front
     }
+    // finish this
 
   isSaved() {
+    // console.log(this.contentInput.value);
     return this.contentInput.value === this.content
   }
-
   indicateSavedStatus() {
-    this.contentInput.addEventListener('keydown', (e) => {
+    this.contentInput.addEventListener('input', (e) => {
+      console.log(e.target.value);
       if (this.isSaved()) {
         this.markSaved()
       } else {
@@ -243,10 +244,10 @@ class Window {
 }
 
 // TO DO:
-
+///////////////////////////////////
 // bringToFront => active window
 // stop from going off page!!
 // objectize Icon
-// ctrl+S hotkey
+/////////////////////////////////// ctrl+S hotkey
 // start bar
-// delete
+/////////////////////////////////// delete
