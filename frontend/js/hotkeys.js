@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function save() {
     if (activeWindow) {
-      activeWindow.saveNote()
+      activeWindow.confirmSaveNote()
     }
   }
 

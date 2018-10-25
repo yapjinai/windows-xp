@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-////////////////////////////////////// display all note icons
-
   function displayNotepadIcon() {
     const note = {
       name: 'Untitled',
@@ -9,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     new Icon(note)
   }
-  displayNotepadIcon()
 
   function displayAllNoteIcons() {
     fetch('http://localhost:3000/notes')
@@ -20,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     })
   }
+
+  displayNotepadIcon()
   displayAllNoteIcons()
-  
 })

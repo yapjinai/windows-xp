@@ -8,32 +8,33 @@ class Icon {
     allIcons.push(this)
 
     this.note = note
-    this.id = note.id
-    this.name = note.name
-
-    // this.window = allWindows.find((window) => window.id === parseInt(noteId))
-    // when should the icon's window attribute be connected to the window? // when window is created.... later
-
-    this.displayIcon()
-
-    this.li = iconContainer.querySelector(`[data-id='${this.id}']`)
+    this.li = this.displayIcon()
 
     this.makeDoubleClickable()
     // this.makeDraggable()
     // this.makeDeleteable()
   }
+  window() {
+    return allWindows.find((window) => window.id === this.id())
+  }
+  id() {
+    return this.note.id
+  }
+  name() {
+    return this.note.name
+  }
 
   // read
   displayIcon() {
-    console.log(this.name);
     const iconLi = document.createElement('li')
     iconLi.setAttribute('class', 'note-icon')
-    iconLi.dataset.id = this.id
+    iconLi.dataset.id = this.id()
     iconLi.innerHTML = `
       <img src='images/notepad-icon.png'><br>
-      <span>${this.name}</span>
+      <span>${this.name()}</span>
     `
     iconContainer.appendChild(iconLi)
+    return iconLi
   }
 
   makeDoubleClickable() {
@@ -45,29 +46,25 @@ class Icon {
     })
   }
     doubleClick() {
-      const noteId = this.id
+      const noteId = this.id()
 
-      const windowAlreadyExists = allWindows.find((window) => {
-        return window.id === parseInt(noteId)
-      })
-
-      if (windowAlreadyExists) {
-        console.log('already exists');
-        // make active
+      if (this.window()) {
+        activeWindow = this.window()
+        console.log('Window already open');
       }
       else {
         this.createWindow()
       }
     }
     createWindow() {
-      if (this.id) { // existing note
-        fetch(`http://localhost:3000/notes/${this.id}`)
+      if (this.id()) { // existing note - note's icon
+        fetch(`http://localhost:3000/notes/${this.id()}`)
         .then(r => r.json())
         .then(note => {
           new Window(note)
         })
       }
-      else { // new note
+      else { // new note - notepad icon
         new Window(this.note)
       }
     }
@@ -75,6 +72,12 @@ class Icon {
   // create
 
   // update
+  refreshIcon() {
+    this.li.innerHTML = `
+      <img src='images/notepad-icon.png'><br>
+      <span>${this.name()}</span>
+    `
+  }
   makeDraggable() {
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0
 
@@ -112,28 +115,15 @@ class Icon {
     }
   }
 
+  // UPDATE NOTE TITLE WHEN window SAVED!!!!
+
   // delete
-  makeDeleteable() {
-    this.deleteButton.addEventListener('click', (event) => {
-      event.preventDefault()
-      this.closeIcon() // delete icon object
-      this.deleteNote() // delete note from backend
-      this.removeNote() // remove icon on page
-    })
+  confirmDeleteIcon() {
+    if (confirm('Delete file?')) {
+      this.deleteIcon()
+    }
   }
-
-    deleteNote() {
-      fetch(`http://localhost:3000/notes/${this.id}`, {
-        method: 'DELETE'
-      })
-    }
-    removeNote() {
-      let allNotes = document.getElementsByClassName('note-icon')
-      const removedNote = [...allNotes].find(note => parseInt(note.dataset.id) === this.id )
-      removedNote.remove()
-    }
+  deleteIcon() {
+    this.li.remove()
+  }
 }
-
-// TO DO:
-
-// transfer function 'makeDoubleClickable' to here from main.js

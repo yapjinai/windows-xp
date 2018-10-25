@@ -1,6 +1,7 @@
 const windowContainer = document.querySelector('.window-container')
 
 let allWindows = []
+let anonymousIds = 0
 let activeWindow
 
 class Window {
@@ -9,12 +10,10 @@ class Window {
     allWindows.push(this)
     activeWindow = this
 
-    this.id = note.id
-    this.name = note.name
-    this.content = note.content
+    this.note = note
     this.openWindow()
 
-    this.window = windowContainer.querySelector(`[data-id='${this.id}']`)
+    this.window = windowContainer.querySelector(`[data-id='${this.id()}']`)
     this.makeBringToFrontable()
 
     this.dragger = this.window.querySelector('.dragger')
@@ -34,14 +33,32 @@ class Window {
     this.makeDeleteable()
   }
 
+  icon() {
+    return allIcons.find((icon) => icon.id() === this.id())
+  }
+  id() {
+    if (this.note.id) {
+      return this.note.id
+    }
+    else {
+      return --anonymousIds
+    }
+  }
+  name() {
+    return this.note.name
+  }
+  content() {
+    return this.note.content
+  }
+
   openWindow() {
     const noteWindow = document.createElement('div')
     noteWindow.className = 'note-window'
-    noteWindow.dataset.id = this.id
+    noteWindow.dataset.id = this.id()
 
     noteWindow.innerHTML = `
       <div class='dragger'>
-        <span class='title-bar'>${this.name} - Notepad</span>
+        <span class='title-bar'>${this.name()} - Notepad</span>
       </div>
 
       <div class='control-buttons'>
@@ -50,7 +67,7 @@ class Window {
 
       <div class='note-display'>
         <form>
-          <textarea>${this.content}</textarea>
+          <textarea>${this.content()}</textarea>
           <button>Save</button>
         </form>
         <button class="delete">Delete</button>
@@ -102,109 +119,96 @@ class Window {
       this.confirmCloseWindow()
     })
   }
-    confirmCloseWindow() {
-      if (!this.isSaved()) {
-        if (confirm('Close without saving?')) {
-          this.closeWindow()
-        }
-      }
-      else {
+  confirmCloseWindow() {
+    if (!this.isSaved()) {
+      if (confirm('Close without saving?')) {
         this.closeWindow()
       }
     }
-      closeWindow() {
-        activeWindow = null
-        this.window.parentElement.removeChild(this.window)
-        allWindows = allWindows.filter((window) => {
-          return window.id !== this.id
-        })
-      }
+    else {
+      this.closeWindow()
+    }
+  }
+  closeWindow() {
+    activeWindow = null
+    this.window.parentElement.removeChild(this.window)
+    allWindows = allWindows.filter((window) => {
+      return window.id !== this.id()
+    })
+  }
 
   makeSaveable() {
     this.form.addEventListener('submit', (event) => {
       event.preventDefault()
-      this.saveNote()
+      this.confirmSaveNote()
     })
   }
-    saveNote() {
-      if (this.id) { // if note already exists
-          this.updateNote()
-        }
-        else { // if new note
-          this.createNote()
-        }
+  confirmSaveNote() {
+    this.note.name = prompt("Please enter file name:", this.name());
+    this.saveNote()
+  }
+  saveNote() {
+    if (this.id() > 0) { // if note already exists
+        this.updateNote()
       }
-      updateNote() {
-        fetch(`http://localhost:3000/notes/${this.id}`, {
-          method: 'PATCH',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            content: this.contentInput.value
-          })
+      else { // if new note
+        this.createNote()
+      }
+    }
+  updateNote() {
+      fetch(`http://localhost:3000/notes/${this.id()}`, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: this.name(),
+          content: this.contentInput.value
         })
-          .then(r => r.json())
-          .then(note => {
-            // update window object
-            this.id = note.id
-            this.name = note.name
-            this.content = note.content
-            this.markSaved()
-          })
-        }
-      createNote() {
-        fetch(`http://localhost:3000/notes`, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            content: this.contentInput.value
-          })
+      })
+        .then(r => r.json())
+        .then(note => {
+          this.note = note
+          this.markSaved()
+          this.icon().refreshIcon()
         })
-          .then(r => r.json())
-          .then(note => {
-            //update window object
-            this.id = note.id
-            this.name = note.name
-            this.content = note.content
-            this.markSaved()
+      }
+  createNote() {
+    fetch(`http://localhost:3000/notes`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: this.name(),
+        content: this.contentInput.value
+      })
+    })
+      .then(r => r.json())
+      .then(note => {
+        this.note = note
+        this.markSaved()
 
-            // display on dom
-            const iconContainer = document.querySelector('.icon-container')
-            const noteLi = document.createElement('li')
-            noteLi.setAttribute('class', 'note-icon')
-            noteLi.dataset.id = note.id
-            noteLi.innerHTML = `
-              <img src='images/notepad-icon.png'><br>
-              <span>${note.name}</span>
-            `
-            iconContainer.appendChild(noteLi)
-          })
-      }
+        // display icon
+        new Icon(this.note)
+      })
+  }
 
   makeDeleteable() {
     this.deleteButton.addEventListener('click', (event) => {
       event.preventDefault()
       this.closeWindow() // delete window object
       this.deleteNote() // delete note from backend
-      this.removeNote() // remove icon on page
+      this.icon().confirmDeleteIcon()
     })
   }
-
-    deleteNote() {
-      fetch(`http://localhost:3000/notes/${this.id}`, {
-        method: 'DELETE'
-      })
-    }
-    removeNote() {
-      let allNotes = document.getElementsByClassName('note-icon')
-      const removedNote = [...allNotes].find(note => parseInt(note.dataset.id) === this.id )
-      removedNote.remove()
-    }
+  deleteNote() {
+    fetch(`http://localhost:3000/notes/${this.id()}`, {
+      method: 'DELETE'
+    })
+  }
 
   makeBringToFrontable() {
     this.window.addEventListener('mousedown', () => {
@@ -212,18 +216,18 @@ class Window {
       this.bringToFront()
     })
   }
-    bringToFront() {
-      // bring to front
-    }
-    // finish this
+  bringToFront() {
+    // bring to front
+  }
+  // finish this
 
   isSaved() {
-    // console.log(this.contentInput.value);
-    return this.contentInput.value === this.content
+    console.log(this.contentInput.value);
+    console.log(this.content());
+    return this.contentInput.value === this.content()
   }
   indicateSavedStatus() {
     this.contentInput.addEventListener('input', (e) => {
-      console.log(e.target.value);
       if (this.isSaved()) {
         this.markSaved()
       } else {
@@ -231,23 +235,25 @@ class Window {
       }
     })
   }
-    markSaved() {
-      this.titleBar.innerHTML = `
-        ${this.name} - Notepad
-      `
-    }
-    markNotSaved() {
-      this.titleBar.innerHTML = `
-        ${this.name}* - Notepad
-      `
-    }
+  markSaved() {
+    this.titleBar.innerHTML = `
+      ${this.name()} - Notepad
+    `
+  }
+  markNotSaved() {
+    this.titleBar.innerHTML = `
+      ${this.name()}* - Notepad
+    `
+  }
 }
 
 // TO DO:
 ///////////////////////////////////
 // bringToFront => active window
 // stop from going off page!!
-// objectize Icon
-/////////////////////////////////// ctrl+S hotkey
+// objectize Icon in Window
+// get file bar working
 // start bar
+/////////////////////////////////// objectize Icon
+/////////////////////////////////// ctrl+S hotkey
 /////////////////////////////////// delete
