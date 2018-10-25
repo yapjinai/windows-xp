@@ -27,13 +27,11 @@ class Window {
     this.contentInput = this.window.querySelector('textarea')
     this.makeSaveable()
 
-<<<<<<< HEAD
     this.titleBar = this.window.querySelector('.title-bar')
     this.indicateSavedStatus()
-=======
+
     this.deleteButton = this.window.querySelector('.delete')
     this.makeDeleteable()
->>>>>>> 4ecf25b4ab3bc64a6ed8f449466f8ef9f976cc0a
   }
 
   openWindow() {
@@ -123,9 +121,15 @@ class Window {
       this.saveNote()
     })
   }
-<<<<<<< HEAD
-    saveNote(){
+    saveNote() {
       if (this.id) { // if note already exists
+          this.updateNote()
+        }
+        else { // if new note
+          this.createNote()
+        }
+      }
+      updateNote() {
         fetch(`http://localhost:3000/notes/${this.id}`, {
           method: 'PATCH',
           headers: {
@@ -134,21 +138,7 @@ class Window {
           },
           body: JSON.stringify({
             content: this.contentInput.value
-            // TO DO: add name changes here
           })
-=======
-
-    saveNote() {
-    if (this.id) { // if note already exists
-      fetch(`http://localhost:3000/notes/${this.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          content: this.contentInput.value
->>>>>>> 4ecf25b4ab3bc64a6ed8f449466f8ef9f976cc0a
         })
           .then(r => r.json())
           .then(note => {
@@ -158,8 +148,8 @@ class Window {
             this.content = note.content
             this.markSaved()
           })
-      }
-      else { // if new note
+        }
+      createNote() {
         fetch(`http://localhost:3000/notes`, {
           method: 'POST',
           headers: {
@@ -190,8 +180,8 @@ class Window {
             noteLinks.appendChild(noteLi)
           })
       }
-    }
 
+// check these???
   makeDeleteable() {
     //event listener
     this.deleteButton.addEventListener('click', (event) => {
@@ -201,20 +191,19 @@ class Window {
       this.removeNote()
     })
   }
-
-  deleteNote() {
-    //fetch
-    fetch(`http://localhost:3000/notes/${this.id}`, {
-      method: 'DELETE'
-    })
-  }
-
-  removeNote() {
+    deleteNote() {
+      //fetch
+      fetch(`http://localhost:3000/notes/${this.id}`, {
+        method: 'DELETE'
+      })
+    }
+    removeNote() {
     //remove note from window container
     let allNotes = document.getElementsByClassName('note-icon')
     const removedNote = [...allNotes].find(note => parseInt(note.dataset.id) === this.id )
     removedNote.remove()
   }
+// check these???
 
   makeBringToFrontable() {
     this.window.addEventListener('mousedown', () => {
@@ -227,8 +216,6 @@ class Window {
     }
 
   isSaved() {
-    console.log(this.contentInput.value);
-    console.log(this.content);
     return this.contentInput.value === this.content
   }
 
