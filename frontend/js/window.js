@@ -174,7 +174,7 @@ class Window {
             this.markSaved()
 
             // display on dom
-            const noteLinks = document.querySelector('.note-links')
+            const iconContainer = document.querySelector('.icon-container')
             const noteLi = document.createElement('li')
             noteLi.setAttribute('class', 'note-icon')
             noteLi.dataset.id = note.id
@@ -182,7 +182,7 @@ class Window {
               <img src='images/notepad-icon.png'><br>
               <span>${note.name}</span>
             `
-            noteLinks.appendChild(noteLi)
+            iconContainer.appendChild(noteLi)
           })
       }
 

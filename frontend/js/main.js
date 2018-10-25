@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  const noteLinks = document.querySelector('.note-links')
+  const iconContainer = document.querySelector('.icon-container')
 
   ////////////////////////////////////// add double click event listener
   function makeDoubleClickable() {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <img src='images/notepad-icon.png'><br>
       <span>${note.name}</span>
     `
-    noteLinks.appendChild(noteLi)
+    iconContainer.appendChild(noteLi)
   }
 
 ////////////////////////////////////// open note window

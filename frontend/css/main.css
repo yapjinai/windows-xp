@@ -64,31 +64,31 @@ body {
       text-align: right;
       color: white; }
 
-.note-links {
+.icon-container {
   position: absolute;
   height: calc(100vh - 30px);
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   list-style: none; }
-  .note-links .notepad-icon,
-  .note-links .note-icon {
+  .icon-container .notepad-icon,
+  .icon-container .note-icon {
     position: relative;
     margin: 10px;
     width: 100px;
     min-height: 100px;
     text-align: center; }
-    .note-links .notepad-icon img,
-    .note-links .note-icon img {
+    .icon-container .notepad-icon img,
+    .icon-container .note-icon img {
       position: inherit;
       width: 54px;
       height: 62px; }
-    .note-links .notepad-icon span,
-    .note-links .note-icon span {
+    .icon-container .notepad-icon span,
+    .icon-container .note-icon span {
       position: inherit;
       margin: auto; }
-    .note-links .notepad-icon:active span,
-    .note-links .note-icon:active span {
+    .icon-container .notepad-icon:active span,
+    .icon-container .note-icon:active span {
       color: white;
       background: #4267a8; }
 
