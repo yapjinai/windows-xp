@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  ////////////////////////////////////// display icons
   function displayNotepadIcon() {
     const note = {
       name: 'Untitled',
@@ -17,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     })
   }
+
+////////////////////////////////////////// start menu
+  const startButton = document.querySelector('.start-button')
+  const startMenu = document.querySelector('.start-menu')
+  new Menu(startButton, startMenu)
 
   displayNotepadIcon()
   displayAllNoteIcons()

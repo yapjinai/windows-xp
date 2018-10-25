@@ -34,7 +34,8 @@ class Window {
     this.makeDeleteable()
 
     this.file = this.window.querySelector('.file')
-    this.fileMenu()
+    this.fileMenu = this.window.querySelector('.file-menu')
+    new Menu(this.file, this.fileMenu)
   }
   ////////////////////////////////////////////////
   ////////////////////////////////////////////////
@@ -75,14 +76,15 @@ class Window {
         <div class='control-button-close'></div>
       </div>
 
-      <div class="file"></div>
+      <div class='file'></div>
+      <div class='file-menu'></div>
 
       <div class='note-display'>
         <form>
           <textarea>${this.content()}</textarea>
           <button>Save</button>
         </form>
-        <button class="delete">Delete</button>
+        <button class='delete'>Delete</button>
       </div>
     `
 
@@ -156,7 +158,7 @@ class Window {
     })
   }
   confirmSaveNote() {
-    this.note.name = prompt("Please enter file name:", this.name());
+    this.note.name = prompt('Please enter file name:', this.name());
     this.saveNote()
   }
   saveNote() {
@@ -231,14 +233,11 @@ class Window {
     })
   }
   bringToFront() {
-    console.log(this.id);
     // bring to front
   }
   // finish this
 
   isSaved() {
-    console.log(this.contentInput.value);
-    console.log(this.content());
     return this.contentInput.value === this.content()
   }
   indicateSavedStatus() {
@@ -265,15 +264,3 @@ class Window {
     // this.file.addEventListener('click')
   }
 }
-
-// TO DO:
-///////////////////////////////////
-// get file bar working
-///////////////////////////////////
-// bringToFront => active window
-// stop from going off page!!
-// start bar
-/////////////////////////////////// objectize Icon
-/////////////////////////////////// objectize Icon in Window
-/////////////////////////////////// ctrl+S hotkey
-/////////////////////////////////// delete
