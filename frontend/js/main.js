@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function displayNotepadIcon() {
     new BlankNote(emptyNote)
   }
+  function displayTrashIcon() {
+    new Trash()
+  }
+
   function generateAllNotes() {
     fetch('http://localhost:3000/notes')
     .then(r => r.json())
@@ -23,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /////////////////////////////////////////// call functions
   displayNotepadIcon()
+  displayTrashIcon()
   generateAllNotes()
   createStartButton()
 })

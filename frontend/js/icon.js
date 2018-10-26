@@ -6,7 +6,7 @@ class Icon {
 
     this.displayOnDOM() // sets this.li
   }
-  ////////////////////////////////////////////////
+  //////////////////////////////////////////
 
   // read
   displayOnDOM() {
@@ -60,11 +60,6 @@ class Icon {
 }
 
 class App extends Icon {
-  // constructor(note) {
-  //   // allIcons.push(this)
-  //   this.note = note
-  // }
-
   displayOnDOM() {
     this.li = document.createElement('li')
     this.li.setAttribute('class', 'note-icon')
