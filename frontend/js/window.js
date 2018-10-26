@@ -118,26 +118,13 @@ class Window {
     }
   }
   close() {
-    // this.div.parentElement.removeChild(this.div) // remove from dom
     this.div.remove() // remove from dom
+
     const index = allWindows.indexOf(this)
     allWindows.splice(index, 1) // remove object
-    this.note.window = null
-    activeNote = null
-  }
 
-  makeDeleteable() {
-    this.deleteButton.addEventListener('click', (event) => {
-      event.preventDefault()
-      this.close() // delete window object
-      this.deleteNote() // delete note from backend
-      this.note.icon.confirmDeleteIcon()
-    })
-  }
-  deleteNote() {
-    fetch(`http://localhost:3000/notes/${this.note.id}`, {
-      method: 'DELETE'
-    })
+    this.note.window = null
+    activeNote = null // update Note object
   }
 
   makeBringToFrontable() {
@@ -149,18 +136,19 @@ class Window {
   bringToFront() {
     activeNote = this.note
 
-    allWindows = allWindows.filter((window) => {
-      return window.id !== this.note.id
-    })
+    const index = allWindows.indexOf(this)
+    allWindows.splice(index, 1) // remove object
+
     allWindows.push(this)
     this.setZIndices()
   }
   setZIndices() {
     allWindows.forEach((windowObj) => {
       const zIndex = allWindows.indexOf(windowObj)
-      console.log(zIndex);
+      console.log(windowObj.note.name, 'has z index', zIndex);
       windowObj.div.style.zIndex = `${zIndex}`
     })
+    console.log(allWindows.map(w => w.note.name));
   }
 
   isSaved() {

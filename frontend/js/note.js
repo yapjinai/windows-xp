@@ -74,7 +74,7 @@ class Note {
     .then(() => {
       this.deleteFront()
       this.deleteIcon()
-      // delete window?
+      this.window.close()
     })
   }
 
