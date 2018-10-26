@@ -8,12 +8,13 @@ class Icon {
     allIcons.push(this)
 
     this.note = note
-    this.li = this.displayIcon()
+    this.li = this.display()
 
     this.makeDoubleClickable()
     // this.makeDraggable()
     // this.makeDeleteable()
   }
+
   window() {
     return allWindows.find((window) => window.id === this.id())
   }
@@ -25,14 +26,22 @@ class Icon {
   }
 
   // read
-  displayIcon() {
+  display() {
     const iconLi = document.createElement('li')
     iconLi.setAttribute('class', 'note-icon')
     iconLi.dataset.id = this.id()
-    iconLi.innerHTML = `
+    if (this.id() === 0) {
+      iconLi.innerHTML = `
       <img src='images/notepad-icon.png'><br>
-      <span>${this.name()}</span>
-    `
+      <span>Notepad</span>
+      `
+    }
+    else {
+      iconLi.innerHTML = `
+        <img src='images/notepad-icon.png'><br>
+        <span>${this.name()}</span>
+      `
+    }
     iconContainer.appendChild(iconLi)
     return iconLi
   }
@@ -40,9 +49,6 @@ class Icon {
   makeDoubleClickable() {
     this.li.addEventListener('dblclick', (event) => {
       this.doubleClick()
-
-
-
     })
   }
     doubleClick() {
@@ -50,29 +56,19 @@ class Icon {
 
       if (this.window()) {
         activeWindow = this.window()
+        this.window().bringToFront()
         console.log('Window already open');
       }
       else {
         this.createWindow()
       }
     }
-    createWindow() {
-      if (this.id()) { // existing note - note's icon
-        fetch(`http://localhost:3000/notes/${this.id()}`)
-        .then(r => r.json())
-        .then(note => {
-          new Window(note)
-        })
-      }
-      else { // new note - notepad icon
-        new Window(this.note)
-      }
-    }
+
 
   // create
 
   // update
-  refreshIcon() {
+  update() {
     this.li.innerHTML = `
       <img src='images/notepad-icon.png'><br>
       <span>${this.name()}</span>
@@ -118,12 +114,12 @@ class Icon {
   // UPDATE NOTE TITLE WHEN window SAVED!!!!
 
   // delete
-  confirmDeleteIcon() {
+  confirmDelete() {
     if (confirm('Delete file?')) {
-      this.deleteIcon()
+      this.delete()
     }
   }
-  deleteIcon() {
+  delete() {
     this.li.remove()
   }
 }

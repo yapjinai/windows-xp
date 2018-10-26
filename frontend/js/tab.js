@@ -1,65 +1,33 @@
-const windowContainer = document.querySelector('.window-container')
+const tabContainer = document.querySelector('.tab-container')
 
-let allWindows = []
-let anonymousIds = -1
-let activeWindow
+// let allTabs = []
+// let activeTab // set this to be tab of active window
 
-class Window {
+class Tab {
 
-  constructor(note) {
-    allWindows.push(this)
-    activeWindow = this
+  constructor(window) {
+    // allTabs.push(this)
+    // activeTab = this
 
-    this.note = note
-    this.id = this.note.id || anonymousIds--
-    this.open()
+    this.window = window
+    this.name = window.name()
+    this.id = window.id
+    this.openTab()
 
-    this.window = windowContainer.querySelector(`[data-id='${this.id}']`)
-    this.makeBringToFrontable()
+    this.tab = tabContainer.querySelector(`[data-id='${this.id}']`)
 
-    this.dragger = this.window.querySelector('.dragger')
-    this.makeDraggable()
-
-    this.controlButtonClose = this.window.querySelector('.control-button-close')
-    this.makeCloseable()
-
-    this.form = this.window.querySelector('form')
-    this.contentInput = this.window.querySelector('textarea')
-    // this.makeSaveable()
-
-    this.titleBar = this.window.querySelector('.title-bar')
-    this.indicateSavedStatus()
-
-    // this.deleteButton = this.window.querySelector('.delete')
-    // this.makeDeleteable()
-
-    this.file = this.window.querySelector('.file')
-    this.fileMenu = this.window.querySelector('.file-menu')
-    new Menu(this.file, this.fileMenu)
+    // this.titleBar = this.tab.querySelector('.title-bar')
+    // this.indicateSavedStatus()
   }
   ////////////////////////////////////////////////
   ////////////////////////////////////////////////
   ////////////////////////////////////////////////
 
-  icon() {
-    return allIcons.find((icon) => icon.id() === this.id)
-  }
-  name() {
-    return this.note.name
-  }
-  content() {
-    return this.note.content
-  }
-
-  ////////////////////////////////////////////////
-  ////////////////////////////////////////////////
-  ////////////////////////////////////////////////
-
-  open() {
-    const noteWindow = document.createElement('div')
-    noteWindow.className = 'note-window'
-    noteWindow.dataset.id = this.id
-    noteWindow.innerHTML = `
+  openTab() {
+    const noteTab = document.createElement('div')
+    noteTab.className = 'note-tab'
+    noteTab.dataset.id = this.id
+    noteTab.innerHTML = `
       <div class='dragger'>
         <span class='title-bar'>${this.name()} - Notepad</span>
       </div>
@@ -80,7 +48,7 @@ class Window {
       </div>
     `
 
-    windowContainer.appendChild(noteWindow)
+    tabContainer.appendChild(noteTab)
   }
 
   makeDraggable() {
@@ -109,18 +77,18 @@ class Window {
       posX = e.clientX
       posY = e.clientY
       // set the element's new position:
-      // if (parseInt(this.window.style.top) !== 0)
-      const newX = this.window.offsetLeft - changeX
-      const newY = this.window.offsetTop - changeY
+      // if (parseInt(this.tab.style.top) !== 0)
+      const newX = this.tab.offsetLeft - changeX
+      const newY = this.tab.offsetTop - changeY
 
       if (newX >= 0 &&
           newY >= 0 &&
           newX <= iconContainer.offsetWidth - this.dragger.offsetWidth &&
           newY <= iconContainer.offsetHeight - this.dragger.offsetHeight) {
-        this.window.style.top = newY + 'px'
-        this.window.style.left = newX + 'px'
+        this.tab.style.top = newY + 'px'
+        this.tab.style.left = newX + 'px'
       }
-      // if (this.window.offsetLeft - changeX >= 0) {
+      // if (this.tab.offsetLeft - changeX >= 0) {
       // }
     }
 
@@ -133,24 +101,24 @@ class Window {
 
   makeCloseable() {
     this.controlButtonClose.addEventListener('click', () => {
-      this.confirmClose()
+      this.confirmCloseTab()
     })
   }
-  confirmClose() {
+  confirmCloseTab() {
     if (!this.isSaved()) {
       if (confirm('Close without saving?')) {
-        this.close()
+        this.closeTab()
       }
     }
     else {
-      this.close()
+      this.closeTab()
     }
   }
-  close() {
-    activeWindow = null
-    this.window.parentElement.removeChild(this.window)
-    allWindows = allWindows.filter((window) => {
-      return window.id !== this.id
+  closeTab() {
+    activeTab = null
+    this.tab.parentElement.removeChild(this.tab)
+    allTabs = allTabs.filter((tab) => {
+      return tab.id !== this.id
     })
   }
 
@@ -189,7 +157,7 @@ class Window {
           this.note = note
           this.id = note.id
           this.markSaved()
-          this.icon().update()
+          this.icon().refreshIcon()
         })
       }
   createNote() {
@@ -218,7 +186,7 @@ class Window {
   makeDeleteable() {
     this.deleteButton.addEventListener('click', (event) => {
       event.preventDefault()
-      this.close() // delete window object
+      this.closeTab() // delete tab object
       this.deleteNote() // delete note from backend
       this.icon().confirmDeleteIcon()
     })
@@ -230,22 +198,22 @@ class Window {
   }
 
   makeBringToFrontable() {
-    this.window.addEventListener('mousedown', () => {
-      activeWindow = this
+    this.tab.addEventListener('mousedown', () => {
+      activeTab = this
       this.bringToFront()
     })
   }
   bringToFront() {
-    allWindows = allWindows.filter((window) => {
-      return window.id !== this.id
+    allTabs = allTabs.filter((tab) => {
+      return tab.id !== this.id
     })
-    allWindows.push(this)
+    allTabs.push(this)
     this.setZIndices()
   }
   setZIndices() {
-    allWindows.forEach((windowObj) => {
-      const zIndex = allWindows.indexOf(windowObj)
-      windowObj.window.style.zIndex = `${zIndex}`
+    allTabs.forEach((tabObj) => {
+      const zIndex = allTabs.indexOf(tabObj)
+      tabObj.tab.style.zIndex = `${zIndex}`
     })
   }
 
