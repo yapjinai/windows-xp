@@ -1,10 +1,11 @@
 const allNotes = []
 let activeNote
+
 class Note {
   constructor(noteInfo) {
     this.updateFront(noteInfo)
     this.createIcon() // this.icon
-    // this.window // set get after opening window
+    // this.window // set after opening window
     allNotes.push(this)
   }
 
@@ -114,6 +115,7 @@ class Note {
   }
   updateWindow() {
     this.window.markSaved()
+    this.window.tab.markSaved()
   }
 
   // delete window

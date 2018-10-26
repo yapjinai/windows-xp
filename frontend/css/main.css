@@ -175,6 +175,46 @@ body {
     background-size: contain; }
   .start-bar .start-menu.on {
     display: initial; }
+  .start-bar .tab-container {
+    position: absolute;
+    display: flex;
+    left: 97px;
+    width: calc(100vw - 97px - 129px);
+    height: 30px; }
+    .start-bar .tab-container .tab {
+      position: relative;
+      display: flex;
+      background-image: url("../images/tab-off-center.jpg");
+      background-size: contain;
+      background-repeat: repeat-x;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 180px; }
+      .start-bar .tab-container .tab span {
+        position: absolute;
+        padding-right: 40px;
+        left: 40px;
+        line-height: 30px;
+        color: white;
+        text-shadow: 1px 1px #333;
+        font-size: 14px;
+        font-family: 'tahoma'; }
+      .start-bar .tab-container .tab .tab-image {
+        height: 30px;
+        position: absolute;
+        background-size: contain;
+        background-repeat: no-repeat; }
+      .start-bar .tab-container .tab .tab-image.left {
+        left: 0;
+        width: 40px;
+        background-image: url("../images/tab-off-left.jpg"); }
+      .start-bar .tab-container .tab .tab-image.right {
+        right: 0;
+        width: 5px;
+        background-image: url("../images/tab-off-right.jpg"); }
+    .start-bar .tab-container .tab.on {
+      background-image: url("../images/tab-on-center.jpg"); }
   .start-bar .start-bar-right {
     position: absolute;
     right: 0;

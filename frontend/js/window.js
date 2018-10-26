@@ -1,6 +1,8 @@
-const windowContainer = document.querySelector('.window-container')
-let allWindows = []
+const allWindows = []
 let blankWindowId = -1
+
+const windowContainer = document.querySelector('.window-container')
+
 class Window {
 
   constructor(note) {
@@ -8,6 +10,8 @@ class Window {
     this.note = note
 
     this.displayOnDOM() // sets this.div, this.dragger, this.controlButtonClose, this.form, this.contentInput, this.titleBar, this.file, this.fileMenu
+
+    this.tab = new Tab(this)
   }
   ////////////////////////////////////////////////
 
@@ -117,6 +121,7 @@ class Window {
   }
   close() {
     this.div.remove() // remove from dom
+    this.tab.deleteOnDOM()
 
     const index = allWindows.indexOf(this)
     allWindows.splice(index, 1) // remove object
@@ -154,8 +159,11 @@ class Window {
     this.contentInput.addEventListener('input', (e) => {
       if (this.isSaved()) {
         this.markSaved()
+        this.tab.markSaved()
+
       } else {
         this.markNotSaved()
+        this.tab.markNotSaved()
       }
     })
   }

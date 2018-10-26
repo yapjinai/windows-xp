@@ -1,9 +1,10 @@
+// const allIcons = []
+
 const iconContainer = document.querySelector('.icon-container')
 
-let allIcons = []
 class Icon {
   constructor(note) {
-    allIcons.push(this)
+    // allIcons.push(this)
     this.note = note
 
     this.displayOnDOM() // sets this.li

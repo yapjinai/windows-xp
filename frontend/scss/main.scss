@@ -26,6 +26,10 @@ $start-menu-width: 382px;
 $start-menu-height: (957 / 760) * 382px;
 
 $main-height: calc(100vh - #{$start-bar-height});
+$tab-container: calc(100vw - #{$start-button-width} - #{$start-bar-right-width});
+
+$tab-image-left: 40px;
+$tab-image-right: 5px;
 
 ////////////////////////////////// z indices
 $icon-container-z-index: -10;
@@ -300,6 +304,80 @@ body {
   }
   .start-menu.on {
     display: initial;
+  }
+
+  .tab-container {
+    position: absolute;
+    display: flex;
+    left: $start-button-width;
+    width: $tab-container;
+    height: $start-bar-height;
+
+    // background: red;
+    // opacity: .5;
+
+    .tab {
+      position: relative;
+      display: flex;
+      background: {
+        image: url('../images/tab-off-center.jpg');
+        size: contain;
+        repeat: repeat-x;
+      }
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      width: 180px;
+
+      // border: 2px solid black;
+
+      span {
+        position: absolute;
+        padding-right: 40px;
+        left: $tab-image-left;
+        line-height: $start-bar-height;
+
+        color: white;
+        text-shadow: 1px 1px #333;
+        font: {
+          size: 14px;
+          family: 'tahoma';
+        }
+
+        // border: 2px solid blue;
+      }
+
+      .tab-image {
+        height: $start-bar-height;
+        position: absolute;
+
+        background: {
+          size: contain;
+          repeat: no-repeat;
+        }
+      }
+
+      .tab-image.left {
+        left: 0;
+        width: $tab-image-left;
+
+        background-image: url('../images/tab-off-left.jpg');
+        // border: 2px solid red;
+      }
+      .tab-image.right {
+        right: 0;
+        width: $tab-image-right;
+
+        background-image: url('../images/tab-off-right.jpg');
+        // border: 2px solid green;
+      }
+    }
+
+    .tab.on {
+      background-image: url('../images/tab-on-center.jpg')
+    }
   }
 
   .start-bar-right {
