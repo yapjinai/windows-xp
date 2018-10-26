@@ -2,12 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //////////////////////////////////////// display icons
   function displayNotepadIcon() {
-    const note = {
-      name: 'Untitled',
-      content: '',
-      id: 0
-    }
-    new Note(note)
+    new BlankNote(emptyNote)
   }
   function generateAllNotes() {
     fetch('http://localhost:3000/notes')

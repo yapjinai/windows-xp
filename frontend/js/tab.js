@@ -30,6 +30,14 @@ class Tab {
     tabContainer.appendChild(this.div)
 
     this.tabTitleBar = this.div.querySelector('.tab-title-bar')
+
+    this.makeClickable()
+  }
+
+  makeClickable() {
+    this.div.addEventListener('click', () => {
+      this.window.bringToFront()
+    })
   }
 
   deleteOnDOM() {

@@ -1,5 +1,12 @@
 const allNotes = []
 let activeNote
+// let blankNoteId = -1
+// let blankIcon
+const emptyNote = {
+  name: 'Untitled',
+  content: '',
+  id: 0
+}
 
 class Note {
   constructor(noteInfo) {
@@ -16,35 +23,8 @@ class Note {
     const newName = prompt('Please enter file name:', this.name)
     if (newName) {
       this.name = newName
-      this.save()
-    }
-  }
-  save() {
-    if (this.isBlankWindow()) {
-      this.create()
-    }
-    else {
       this.update()
     }
-  }
-  create() {
-    fetch(`http://localhost:3000/notes`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: this.name,
-        content: this.window.contentInput.value
-      })
-    })
-    .then(r => r.json())
-    .then(noteInfo => {
-      this.updateFront(noteInfo)
-      this.createIcon()
-      this.updateWindow()
-    })
   }
   update() {
     fetch(`http://localhost:3000/notes/${this.id}`, {
@@ -79,9 +59,9 @@ class Note {
   ////////////////////////////////////////////////
   // Note frontend
   ////////////////////////////////////////////////
-  isBlankWindow() {
-    return this.id <= 0
-  }
+  // isBlankWindow() {
+  //   return this.id <= 0
+  // }
 
   updateFront(noteInfo) {
     this.name = noteInfo.name
@@ -98,6 +78,9 @@ class Note {
   ////////////////////////////////////////////////
   createIcon() {
     this.icon = new Icon(this)
+    // if (this.isBlankWindow()) {
+    //   blankIcon = this.icon
+    // }
   }
   updateIcon() {
     this.icon.updateOnDOM()
@@ -119,4 +102,40 @@ class Note {
   }
 
   // delete window
+}
+
+/////////////////////////////////////////
+/////////////////////////////////////////
+/////////////////////////////////////////
+
+class BlankNote extends Note {
+  confirmSave() {
+    const newName = prompt('Please enter file name:', this.name)
+    if (newName) {
+      this.newName = newName
+      this.create()
+    }
+  }
+  create() {
+    fetch(`http://localhost:3000/notes`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: this.newName,
+        content: this.window.contentInput.value
+      })
+    })
+    .then(r => r.json())
+    .then(noteInfo => {
+      const newNote = new Note(noteInfo)
+      newNote.window = this.window
+      activeNote = newNote
+      newNote.window.note = newNote
+      this.window = null
+      newNote.updateWindow()
+    })
+  }
 }

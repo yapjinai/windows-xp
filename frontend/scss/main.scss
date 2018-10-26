@@ -83,6 +83,7 @@ body {
 
   .notepad-icon,
   .note-icon {
+    // flex: 1;
     position: relative;
     margin: 10px;
 
@@ -256,6 +257,10 @@ body {
       }
     }
   }
+
+  .note-window.on {
+    background-image: url('../images/notepad.png');
+  }
 }
 
 ///////////////////////////////////// start bar
@@ -376,7 +381,13 @@ body {
     }
 
     .tab.on {
-      background-image: url('../images/tab-on-center.jpg')
+      background-image: url('../images/tab-on-center.jpg');
+      .tab-image.left {
+        background-image: url('../images/tab-on-left.jpg');
+      }
+      .tab-image.right {
+        background-image: url('../images/tab-on-right.jpg');
+      }
     }
   }
 

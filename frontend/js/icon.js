@@ -1,10 +1,7 @@
-// const allIcons = []
-
 const iconContainer = document.querySelector('.icon-container')
 
 class Icon {
   constructor(note) {
-    // allIcons.push(this)
     this.note = note
 
     this.displayOnDOM() // sets this.li
@@ -16,18 +13,18 @@ class Icon {
     this.li = document.createElement('li')
     this.li.setAttribute('class', 'note-icon')
     this.li.dataset.id = this.note.id
-    if (this.note.isBlankWindow()) { //
-      this.li.innerHTML = `
-      <img src='images/notepad-icon.png'><br>
-      <span>Notepad</span>
-      `
-    }
-    else {
+    // if (this.note.isBlankWindow()) { //
+    //   this.li.innerHTML = `
+    //   <img src='images/notepad-icon.png'><br>
+    //   <span>Notepad</span>
+    //   `
+    // }
+    // else {
       this.li.innerHTML = `
         <img src='images/notepad-icon.png'><br>
         <span>${this.note.name}</span>
       `
-    }
+    // }
     iconContainer.appendChild(this.li)
 
     this.makeDoubleClickable()
@@ -39,7 +36,6 @@ class Icon {
     })
   }
   doubleClick() {
-    console.log(this.note.id);
     if (this.note.window) { // window already exists
       activeNote = this.note
       this.note.window.bringToFront()
@@ -60,5 +56,37 @@ class Icon {
   // delete
   deleteOnDOM() {
     this.li.remove()
+  }
+}
+
+class App extends Icon {
+  // constructor(note) {
+  //   // allIcons.push(this)
+  //   this.note = note
+  // }
+
+  displayOnDOM() {
+    this.li = document.createElement('li')
+    this.li.setAttribute('class', 'note-icon')
+    this.li.dataset.id = this.note.id
+    // if (this.note.isBlankWindow()) { //
+      this.li.innerHTML = `
+      <img src='images/notepad-icon.png'><br>
+      <span>Notepad</span>
+      `
+
+    iconContainer.appendChild(this.li)
+
+    this.makeDoubleClickable()
+  }
+  doubleClick() {
+    if (this.note.window) { // window already exists
+      activeNote = this.note
+      this.note.window.bringToFront()
+    }
+    else {
+      activeNote = this.note
+      this.note.window = new Window(this.note)
+    }
   }
 }

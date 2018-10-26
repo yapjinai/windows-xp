@@ -145,6 +145,8 @@ body {
         cursor: text;
         font-size: 18px;
         font-family: 'tahoma', sans-serif; }
+  .window-container .note-window.on {
+    background-image: url("../images/notepad.png"); }
 
 .start-bar {
   z-index: 20;
@@ -215,6 +217,10 @@ body {
         background-image: url("../images/tab-off-right.jpg"); }
     .start-bar .tab-container .tab.on {
       background-image: url("../images/tab-on-center.jpg"); }
+      .start-bar .tab-container .tab.on .tab-image.left {
+        background-image: url("../images/tab-on-left.jpg"); }
+      .start-bar .tab-container .tab.on .tab-image.right {
+        background-image: url("../images/tab-on-right.jpg"); }
   .start-bar .start-bar-right {
     position: absolute;
     right: 0;

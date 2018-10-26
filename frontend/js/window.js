@@ -1,5 +1,4 @@
 const allWindows = []
-let blankWindowId = -1
 
 const windowContainer = document.querySelector('.window-container')
 
@@ -10,8 +9,11 @@ class Window {
     this.note = note
 
     this.displayOnDOM() // sets this.div, this.dragger, this.controlButtonClose, this.form, this.contentInput, this.titleBar, this.file, this.fileMenu
+    activeNote = this.note
 
     this.tab = new Tab(this)
+
+    this.bringToFront()
   }
   ////////////////////////////////////////////////
 
@@ -34,9 +36,7 @@ class Window {
       <div class='note-display'>
         <form>
           <textarea>${this.note.content}</textarea>
-          <!-- <button>Save</button> -->
         </form>
-        <!-- <button class='delete'>Delete</button> -->
       </div>
     `
     windowContainer.appendChild(this.div)
@@ -137,19 +137,36 @@ class Window {
     })
   }
   bringToFront() {
-    activeNote = this.note
+    activeNote = this.note // make active for save
 
     const index = allWindows.indexOf(this)
-    allWindows.splice(index, 1) // remove object
-
+    allWindows.splice(index, 1)
     allWindows.push(this)
-    this.setZIndices()
+    this.setZIndices() // set z index
+
+    this.styleAllOff()
+    this.styleOn()
   }
   setZIndices() {
     allWindows.forEach((windowObj) => {
       const zIndex = allWindows.indexOf(windowObj)
       windowObj.div.style.zIndex = `${zIndex}`
     })
+  }
+
+  styleAllOff() {
+    allWindows.forEach((windowObj) => {
+      windowObj.div.classList.remove('on')
+      if (windowObj.tab) {
+        windowObj.tab.div.classList.remove('on')
+      }
+    })
+  }
+  styleOn() {
+    this.div.classList.add('on')
+    if (this.tab) {
+      this.tab.div.classList.add('on')
+    }
   }
 
   isSaved() {
