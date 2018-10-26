@@ -1,9 +1,7 @@
 const iconContainer = document.querySelector('.icon-container')
 
 let allIcons = []
-
 class Icon {
-
   constructor(note) {
     allIcons.push(this)
     this.note = note
@@ -11,13 +9,13 @@ class Icon {
     this.displayOnDOM() // sets this.li
   }
   ////////////////////////////////////////////////
-  
+
   // read
   displayOnDOM() {
     this.li = document.createElement('li')
     this.li.setAttribute('class', 'note-icon')
     this.li.dataset.id = this.note.id
-    if (this.note.id === 0) {
+    if (this.note.isBlankWindow()) { //
       this.li.innerHTML = `
       <img src='images/notepad-icon.png'><br>
       <span>Notepad</span>
@@ -40,12 +38,12 @@ class Icon {
     })
   }
   doubleClick() {
-    if (this.note.window) {
+    console.log(this.note.id);
+    if (this.note.window) { // window already exists
       activeNote = this.note
       this.note.window.bringToFront()
     }
     else {
-      console.log(1);
       this.note.createWindow()
     }
   }

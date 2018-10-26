@@ -1,33 +1,31 @@
 const allNotes = []
 let activeNote
-
 class Note {
-
   constructor(noteInfo) {
-    allNotes.push(this)
-    activeNote = this
-
     this.updateFront(noteInfo)
     this.createIcon() // this.icon
-    // this.window // get after opening window
+    // this.window // set get after opening window
+    allNotes.push(this)
   }
 
   ////////////////////////////////////////////////
   // Note backend
   ////////////////////////////////////////////////
   confirmSave() {
-    this.name = prompt('Please enter file name:', this.name)
-    this.update()
+    const newName = prompt('Please enter file name:', this.name)
+    if (newName) {
+      this.name = newName
+      this.save()
+    }
   }
-    //
-    // save() {
-    //   if (this.id > 0) { // if note already exists
-    //       this.update()
-    //     }
-    //     else { // if new note
-    //       this.create()
-    //     }
-    //   }
+  save() {
+    if (this.isBlankWindow()) {
+      this.create()
+    }
+    else {
+      this.update()
+    }
+  }
   create() {
     fetch(`http://localhost:3000/notes`, {
       method: 'POST',
@@ -47,7 +45,6 @@ class Note {
       this.updateWindow()
     })
   }
-
   update() {
     fetch(`http://localhost:3000/notes/${this.id}`, {
       method: 'PATCH',
@@ -81,6 +78,10 @@ class Note {
   ////////////////////////////////////////////////
   // Note frontend
   ////////////////////////////////////////////////
+  isBlankWindow() {
+    return this.id <= 0
+  }
+
   updateFront(noteInfo) {
     this.name = noteInfo.name
     this.content = noteInfo.content

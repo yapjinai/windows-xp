@@ -1,8 +1,6 @@
 const windowContainer = document.querySelector('.window-container')
-
 let allWindows = []
-// let anonymousIds = -1
-
+let blankWindowId = -1
 class Window {
 
   constructor(note) {
@@ -145,10 +143,8 @@ class Window {
   setZIndices() {
     allWindows.forEach((windowObj) => {
       const zIndex = allWindows.indexOf(windowObj)
-      console.log(windowObj.note.name, 'has z index', zIndex);
       windowObj.div.style.zIndex = `${zIndex}`
     })
-    console.log(allWindows.map(w => w.note.name));
   }
 
   isSaved() {
