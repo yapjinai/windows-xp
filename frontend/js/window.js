@@ -1,67 +1,25 @@
 const windowContainer = document.querySelector('.window-container')
 
 let allWindows = []
-let anonymousIds = -1
-let activeWindow
+// let anonymousIds = -1
 
 class Window {
 
   constructor(note) {
     allWindows.push(this)
-    activeWindow = this
-
     this.note = note
-    this.id = this.note.id || anonymousIds--
-    this.open()
 
-    this.window = windowContainer.querySelector(`[data-id='${this.id}']`)
-    this.makeBringToFrontable()
-
-    this.dragger = this.window.querySelector('.dragger')
-    this.makeDraggable()
-
-    this.controlButtonClose = this.window.querySelector('.control-button-close')
-    this.makeCloseable()
-
-    this.form = this.window.querySelector('form')
-    this.contentInput = this.window.querySelector('textarea')
-    // this.makeSaveable()
-
-    this.titleBar = this.window.querySelector('.title-bar')
-    this.indicateSavedStatus()
-
-    // this.deleteButton = this.window.querySelector('.delete')
-    // this.makeDeleteable()
-
-    this.file = this.window.querySelector('.file')
-    this.fileMenu = this.window.querySelector('.file-menu')
-    new Menu(this.file, this.fileMenu)
+    this.displayOnDOM() // sets this.div, this.dragger, this.controlButtonClose, this.form, this.contentInput, this.titleBar, this.file, this.fileMenu
   }
   ////////////////////////////////////////////////
-  ////////////////////////////////////////////////
-  ////////////////////////////////////////////////
 
-  icon() {
-    return allIcons.find((icon) => icon.id() === this.id)
-  }
-  name() {
-    return this.note.name
-  }
-  content() {
-    return this.note.content
-  }
-
-  ////////////////////////////////////////////////
-  ////////////////////////////////////////////////
-  ////////////////////////////////////////////////
-
-  open() {
-    const noteWindow = document.createElement('div')
-    noteWindow.className = 'note-window'
-    noteWindow.dataset.id = this.id
-    noteWindow.innerHTML = `
+  displayOnDOM() {
+    this.div = document.createElement('div')
+    this.div.className = 'note-window'
+    this.div.dataset.id = this.note.id
+    this.div.innerHTML = `
       <div class='dragger'>
-        <span class='title-bar'>${this.name()} - Notepad</span>
+        <span class='title-bar'>${this.note.name} - Notepad</span>
       </div>
 
       <div class='control-buttons'>
@@ -73,14 +31,27 @@ class Window {
 
       <div class='note-display'>
         <form>
-          <textarea>${this.content()}</textarea>
+          <textarea>${this.note.content}</textarea>
           <!-- <button>Save</button> -->
         </form>
         <!-- <button class='delete'>Delete</button> -->
       </div>
     `
+    windowContainer.appendChild(this.div)
 
-    windowContainer.appendChild(noteWindow)
+    this.dragger = this.div.querySelector('.dragger')
+    this.controlButtonClose = this.div.querySelector('.control-button-close')
+    this.form = this.div.querySelector('form')
+    this.contentInput = this.div.querySelector('textarea')
+    this.titleBar = this.div.querySelector('.title-bar')
+    this.indicateSavedStatus()
+    this.file = this.div.querySelector('.file')
+    this.fileMenu = this.div.querySelector('.file-menu')
+
+    this.makeBringToFrontable()
+    this.makeDraggable()
+    this.makeCloseable()
+    new Menu(this.file, this.fileMenu)
   }
 
   makeDraggable() {
@@ -109,18 +80,18 @@ class Window {
       posX = e.clientX
       posY = e.clientY
       // set the element's new position:
-      // if (parseInt(this.window.style.top) !== 0)
-      const newX = this.window.offsetLeft - changeX
-      const newY = this.window.offsetTop - changeY
+      // if (parseInt(this.div.style.top) !== 0)
+      const newX = this.div.offsetLeft - changeX
+      const newY = this.div.offsetTop - changeY
 
       if (newX >= 0 &&
           newY >= 0 &&
           newX <= iconContainer.offsetWidth - this.dragger.offsetWidth &&
           newY <= iconContainer.offsetHeight - this.dragger.offsetHeight) {
-        this.window.style.top = newY + 'px'
-        this.window.style.left = newX + 'px'
+        this.div.style.top = newY + 'px'
+        this.div.style.left = newX + 'px'
       }
-      // if (this.window.offsetLeft - changeX >= 0) {
+      // if (this.div.offsetLeft - changeX >= 0) {
       // }
     }
 
@@ -147,72 +118,12 @@ class Window {
     }
   }
   close() {
-    activeWindow = null
-    this.window.parentElement.removeChild(this.window)
-    allWindows = allWindows.filter((window) => {
-      return window.id !== this.id
-    })
-  }
-
-  makeSaveable() {
-    this.form.addEventListener('submit', (event) => {
-      event.preventDefault()
-      this.confirmSaveNote()
-    })
-  }
-  confirmSaveNote() {
-    this.note.name = prompt('Please enter file name:', this.name());
-    this.saveNote()
-  }
-  saveNote() {
-    if (this.id > 0) { // if note already exists
-        this.updateNote()
-      }
-      else { // if new note
-        this.createNote()
-      }
-    }
-  updateNote() {
-      fetch(`http://localhost:3000/notes/${this.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: this.name(),
-          content: this.contentInput.value
-        })
-      })
-        .then(r => r.json())
-        .then(note => {
-          this.note = note
-          this.id = note.id
-          this.markSaved()
-          this.icon().update()
-        })
-      }
-  createNote() {
-    fetch(`http://localhost:3000/notes`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: this.name(),
-        content: this.contentInput.value
-      })
-    })
-      .then(r => r.json())
-      .then(note => {
-        this.note = note
-        this.id = note.id
-        this.markSaved()
-
-        // display icon
-        new Icon(this.note)
-      })
+    // this.div.parentElement.removeChild(this.div) // remove from dom
+    this.div.remove() // remove from dom
+    const index = allWindows.indexOf(this)
+    allWindows.splice(index, 1) // remove object
+    this.note.window = null
+    activeNote = null
   }
 
   makeDeleteable() {
@@ -220,24 +131,26 @@ class Window {
       event.preventDefault()
       this.close() // delete window object
       this.deleteNote() // delete note from backend
-      this.icon().confirmDeleteIcon()
+      this.note.icon.confirmDeleteIcon()
     })
   }
   deleteNote() {
-    fetch(`http://localhost:3000/notes/${this.id}`, {
+    fetch(`http://localhost:3000/notes/${this.note.id}`, {
       method: 'DELETE'
     })
   }
 
   makeBringToFrontable() {
-    this.window.addEventListener('mousedown', () => {
-      activeWindow = this
+    this.div.addEventListener('mousedown', () => {
+      activeNote = this.note
       this.bringToFront()
     })
   }
   bringToFront() {
+    activeNote = this.note
+
     allWindows = allWindows.filter((window) => {
-      return window.id !== this.id
+      return window.id !== this.note.id
     })
     allWindows.push(this)
     this.setZIndices()
@@ -245,12 +158,13 @@ class Window {
   setZIndices() {
     allWindows.forEach((windowObj) => {
       const zIndex = allWindows.indexOf(windowObj)
-      windowObj.window.style.zIndex = `${zIndex}`
+      console.log(zIndex);
+      windowObj.div.style.zIndex = `${zIndex}`
     })
   }
 
   isSaved() {
-    return this.contentInput.value === this.content()
+    return this.contentInput.value === this.note.content
   }
   indicateSavedStatus() {
     this.contentInput.addEventListener('input', (e) => {
@@ -263,12 +177,12 @@ class Window {
   }
   markSaved() {
     this.titleBar.innerHTML = `
-      ${this.name()} - Notepad
+      ${this.note.name} - Notepad
     `
   }
   markNotSaved() {
     this.titleBar.innerHTML = `
-      ${this.name()}* - Notepad
+      ${this.note.name}* - Notepad
     `
   }
 }

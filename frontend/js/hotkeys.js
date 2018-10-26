@@ -29,14 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
   listenForFirstKey()
 
   function save() {
-    if (activeWindow) {
-      activeWindow.confirmSaveNote()
+    if (activeNote) {
+      activeNote.confirmSave()
     }
   }
 
   function close() {
-    if (activeWindow) {
-      activeWindow.confirmCloseWindow()
+    if (activeNote) {
+      // console.log(activeNote);
+      // console.log(activeNote.window);
+      activeNote.window.confirmClose()
     }
   }
 

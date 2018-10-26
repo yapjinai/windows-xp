@@ -15,7 +15,20 @@ class Note {
   ////////////////////////////////////////////////
   // Note backend
   ////////////////////////////////////////////////
-  createBack() {
+  confirmSave() {
+    this.name = prompt('Please enter file name:', this.name)
+    this.update()
+  }
+    //
+    // save() {
+    //   if (this.id > 0) { // if note already exists
+    //       this.update()
+    //     }
+    //     else { // if new note
+    //       this.create()
+    //     }
+    //   }
+  create() {
     fetch(`http://localhost:3000/notes`, {
       method: 'POST',
       headers: {
@@ -24,36 +37,38 @@ class Note {
       },
       body: JSON.stringify({
         name: this.name,
-        content: this.content,
-        content: this.contentInput.value
+        content: this.window.contentInput.value
       })
     })
     .then(r => r.json())
     .then(noteInfo => {
       this.updateFront(noteInfo)
       this.createIcon()
+      this.updateWindow()
     })
   }
-  updateBack() {
-    fetch(`http://localhost:3000/nootes/${this.id}`, {
+
+  update() {
+    fetch(`http://localhost:3000/notes/${this.id}`, {
       method: 'PATCH',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: this.name(),
-        content: this.contentInput.value
+        name: this.name,
+        content: this.window.contentInput.value
       })
     })
     .then(r => r.json())
     .then(noteInfo => {
       this.updateFront(noteInfo)
       this.updateIcon()
+      this.updateWindow()
     })
   }
-  deleteBack() {
-    fetch(`http://localhost:3000/nootes/${this.id}`, {
+  delete() {
+    fetch(`http://localhost:3000/notes/${this.id}`, {
       method: 'DELETE'
     })
     .then(() => {
@@ -83,16 +98,22 @@ class Note {
     this.icon = new Icon(this)
   }
   updateIcon() {
-    this.icon.update()
+    this.icon.updateOnDOM()
   }
   deleteIcon() {
-    this.icon.delete()
+    this.icon.deleteOnDOM()
   }
 
   ////////////////////////////////////////////////
   // Window
   ////////////////////////////////////////////////
   createWindow() {
+    activeNote = this
     this.window = new Window(this)
   }
+  updateWindow() {
+    this.window.markSaved()
+  }
+
+  // delete window
 }

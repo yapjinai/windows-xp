@@ -6,44 +6,32 @@ class Icon {
 
   constructor(note) {
     allIcons.push(this)
-
     this.note = note
-    this.li = this.display()
 
-    this.makeDoubleClickable()
-    // this.makeDraggable()
-    // this.makeDeleteable()
+    this.displayOnDOM() // sets this.li
   }
-
-  window() {
-    return allWindows.find((window) => window.id === this.id())
-  }
-  id() {
-    return this.note.id
-  }
-  name() {
-    return this.note.name
-  }
-
+  ////////////////////////////////////////////////
+  
   // read
-  display() {
-    const iconLi = document.createElement('li')
-    iconLi.setAttribute('class', 'note-icon')
-    iconLi.dataset.id = this.id()
-    if (this.id() === 0) {
-      iconLi.innerHTML = `
+  displayOnDOM() {
+    this.li = document.createElement('li')
+    this.li.setAttribute('class', 'note-icon')
+    this.li.dataset.id = this.note.id
+    if (this.note.id === 0) {
+      this.li.innerHTML = `
       <img src='images/notepad-icon.png'><br>
       <span>Notepad</span>
       `
     }
     else {
-      iconLi.innerHTML = `
+      this.li.innerHTML = `
         <img src='images/notepad-icon.png'><br>
-        <span>${this.name()}</span>
+        <span>${this.note.name}</span>
       `
     }
-    iconContainer.appendChild(iconLi)
-    return iconLi
+    iconContainer.appendChild(this.li)
+
+    this.makeDoubleClickable()
   }
 
   makeDoubleClickable() {
@@ -51,75 +39,27 @@ class Icon {
       this.doubleClick()
     })
   }
-    doubleClick() {
-      const noteId = this.id()
-
-      if (this.window()) {
-        activeWindow = this.window()
-        this.window().bringToFront()
-        console.log('Window already open');
-      }
-      else {
-        this.createWindow()
-      }
+  doubleClick() {
+    if (this.note.window) {
+      activeNote = this.note
+      this.note.window.bringToFront()
     }
-
-
-  // create
+    else {
+      console.log(1);
+      this.note.createWindow()
+    }
+  }
 
   // update
-  update() {
+  updateOnDOM() {
     this.li.innerHTML = `
       <img src='images/notepad-icon.png'><br>
-      <span>${this.name()}</span>
+      <span>${this.note.name}</span>
     `
   }
-  makeDraggable() {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0
-
-    this.dragger.addEventListener('mousedown', dragMouseDown.bind(this))
-
-    const boundElementDrag = elementDrag.bind(this)
-    const boundCloseDragElement = closeDragElement.bind(this)
-
-    function dragMouseDown(e) {
-      e.preventDefault()
-      // get the mouse cursor position at startup:
-      pos3 = e.clientX
-      pos4 = e.clientY
-      document.addEventListener('mouseup', boundCloseDragElement)
-      // call a function whenever the cursor moves:
-      document.addEventListener('mousemove', boundElementDrag)
-    }
-
-    function elementDrag(e) {
-      e.preventDefault()
-      // calculate the new cursor position:
-      pos1 = pos3 - e.clientX
-      pos2 = pos4 - e.clientY
-      pos3 = e.clientX
-      pos4 = e.clientY
-      // set the element's new position:
-      this.icon.style.top = (this.icon.offsetTop - pos2) + 'px'
-      this.icon.style.left = (this.icon.offsetLeft - pos1) + 'px'
-    }
-
-    function closeDragElement() {
-      /* stop moving when mouse button is released:*/
-      document.removeEventListener('mouseup', boundCloseDragElement)
-      document.removeEventListener('mousemove', boundElementDrag)
-    }
-  }
-
-  // UPDATE NOTE TITLE WHEN window SAVED!!!!
 
   // delete
-  confirmDelete() {
-    if (confirm('Delete file?')) {
-      this.delete()
-    }
-  }
-  delete() {
+  deleteOnDOM() {
     this.li.remove()
   }
 }
