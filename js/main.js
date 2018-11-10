@@ -1,4 +1,4 @@
-const localhostURL = 'http://localhost:4000'
+const apiURL = 'https://windows-xp-api.herokuapp.com'
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function generateAllNotes() {
-    fetch(`${localhostURL}/notes`)
+    fetch(`${apiURL}/notes`)
     .then(r => r.json())
     .then(notes => {
       notes.forEach((note) => {
