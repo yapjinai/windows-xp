@@ -1,3 +1,4 @@
+// const localhostURL = 'http://localhost:4000'
 const allNotes = []
 let activeNote
 // let blankNoteId = -1
@@ -27,7 +28,7 @@ class Note {
     }
   }
   update() {
-    fetch(`http://localhost:3000/notes/${this.id}`, {
+    fetch(`${localhostURL}/notes/${this.id}`, {
       method: 'PATCH',
       headers: {
         'Accept': 'application/json',
@@ -46,7 +47,7 @@ class Note {
     })
   }
   delete() {
-    fetch(`http://localhost:3000/notes/${this.id}`, {
+    fetch(`${localhostURL}/notes/${this.id}`, {
       method: 'DELETE'
     })
     .then(() => {
@@ -117,7 +118,7 @@ class BlankNote extends Note {
     }
   }
   create() {
-    fetch(`http://localhost:3000/notes`, {
+    fetch(`${localhostURL}/notes`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

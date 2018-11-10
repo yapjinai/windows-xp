@@ -1,3 +1,5 @@
+const localhostURL = 'http://localhost:4000'
+
 document.addEventListener('DOMContentLoaded', () => {
 
   //////////////////////////////////////// display icons
@@ -9,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function generateAllNotes() {
-    fetch('http://localhost:3000/notes')
+    fetch(`${localhostURL}/notes`)
     .then(r => r.json())
     .then(notes => {
       notes.forEach((note) => {
