@@ -13,13 +13,14 @@ class Icon {
     this.li = document.createElement('li')
     this.li.setAttribute('class', 'note-icon')
     this.li.dataset.id = this.note.id
-    // if (this.note.isBlankWindow()) { //
-    //   this.li.innerHTML = `
-    //   <img src='images/notepad-icon.png'><br>
-    //   <span>Notepad</span>
-    //   `
-    // }
-    // else {
+
+    if (this.note.id === 0) {
+      this.li.innerHTML = `
+      <img src='images/notepad-icon.png'><br>
+      <span>Notepad</span>
+      `
+    }
+    else
       this.li.innerHTML = `
         <img src='images/notepad-icon.png'><br>
         <span>${this.note.name}</span>
