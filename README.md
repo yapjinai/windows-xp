@@ -1,3 +1,6 @@
-# windows xp
-A Windows-XP-style Evernote-like app built in Rails and React.
-[Working app available here!](http://windows-xp.herokuapp.com)
+# Frontend for Forevernote
+Live demo available at http://windows-xp.herokuapp.com.
+Backend repo here: https://github.com/yapjinai/windows-xp-api
+## Publicly share text documents on a Windows XP-style Notepad clone built in Rails and React
++ Built a RESTful Ruby on Rails API with POSTgres database to set up a notetaking app with full CRUD functionality
++ Created an HTML/object-oriented JavaScript interface to mimic functionality of the Windows XP operating system
